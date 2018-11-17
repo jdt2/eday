@@ -19,8 +19,6 @@ export default class Todo extends React.Component {
             style={[styles.icon, {tintColor: tintColor}]}
           />
         },
-        headerStyle: {height: 60, backgroundColor: "#90CCF4"},
-        headerTitleStyle: {color: "white"},
         headerTitle: 'Daily Action List',
         headerLeft: (
             <Hamburger func={navigation.toggleDrawer} />

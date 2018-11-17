@@ -8,7 +8,7 @@ export default class Hamburger extends React.Component {
         return (
             <View>
                 <StatusBar barStyle="light-content" />
-                <View style={styles.header}>
+                <View style={styles.headerLeft}>
                     <TouchableOpacity
                         onPress={() => {this.props.func()
                         }}

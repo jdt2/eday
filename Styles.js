@@ -15,10 +15,13 @@ export default StyleSheet.create({
       fontSize: 48,
       fontWeight: 'bold',
     },
-    // Home.js
-    header: {
+    headerLeft: {
       paddingLeft: 15,
     },
+    headerRight: {
+      paddingRight: 15,
+    },
+    // Home.js
     content: {
       flex: 1,
       alignItems: 'center',
@@ -69,4 +72,34 @@ export default StyleSheet.create({
     goalButtonText: {
       color: 'white'
     },
+    // Learning
+    note: {
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: "#90CCF4",
+      justifyContent: "center",
+      marginLeft: 15,
+      marginRight: 15,
+      padding: 15,
+    },
+    noteText: {
+      flex: 1,
+      flexWrap: 'wrap',
+      fontSize: 16,
+    },
+    noteTitle: {
+      fontSize: 36,
+    },
+    // Add Learning
+    noteTitleInput: {
+      fontSize: 36,
+      height: 70,
+      borderWidth: 1,
+      borderColor: "#90CCF4",
+    },
+    noteTextInput: {
+      height: 400,
+      borderWidth: 1,
+      borderColor: "#90CCF4",
+    }
 })

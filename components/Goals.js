@@ -1,7 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button, TextInput } from 'react-native';
 import styles from '../Styles'
-import Hamburger from './Hamburger';
 import {Ionicons as Icon} from '@expo/vector-icons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -97,7 +96,7 @@ export default class Goals extends React.Component {
               style={styles.goalButton}
               onPress={() => this.goalSubmit(i)}
             >
-              <Icon style={styles.goalButtonText} name="ios-checkmark" size={40} />
+              <Icon style={styles.goalButtonText} name="md-checkmark" size={40} />
             </TouchableOpacity>
           </View>
         );
@@ -126,7 +125,7 @@ export default class Goals extends React.Component {
             style={styles.goalButton}
             onPress={() => this.submitActionStep()}
           >
-            <Icon style={styles.goalButtonText} name="ios-checkmark" size={40} />
+            <Icon style={styles.goalButtonText} name="md-checkmark" size={40} />
           </TouchableOpacity>
         </View>
       );
