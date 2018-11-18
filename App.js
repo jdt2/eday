@@ -2,17 +2,17 @@ import React from 'react';
 import {Image} from 'react-native';
 import styles from './Styles';
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import Goals from './components/Goals';
-import Home from './components/Home';
-import Todo from './components/Todo';
-import Learning from './components/Learning';
-import Thinking from './components/Thinking';
-import AddLearning from './components/AddLearning';
-import Hamburger from './components/Hamburger';
+import Goals from './components/Goals/Goals';
+import Home from './components/Home/Home';
+import Todo from './components/Todo/Todo';
+import Learning from './components/Learning/Learning';
+import Thinking from './components/Thinking/Thinking';
+import AddLearning from './components/Learning/AddLearning';
+import Hamburger from './components/util/Hamburger';
 
 var unavigationOptions = ({navigation}) => {
   return {
-    headerStyle: {height: 40, backgroundColor: "#90CCF4"},
+    headerStyle: {height: 40, backgroundColor: "#3FB0B9"},
     headerTitleStyle: {color: "white"},
     headerLeft: (
         <Hamburger func={navigation.toggleDrawer} />
@@ -23,7 +23,7 @@ var unavigationOptions = ({navigation}) => {
 
 var stackNavigationOptions = ({navigation}) => {
   return {
-    headerStyle: {height: 40, backgroundColor: "#90CCF4"},
+    headerStyle: {height: 40, backgroundColor: "#3FB0B9"},
     headerTintColor: "white",
     headerTitleStyle: {color: "white"},
     headerBackTitle: null,
@@ -70,6 +70,15 @@ const TodoNavigator = createStackNavigator(
   }
 );
 
+const ThinkingNavigator = createStackNavigator(
+  {
+    Thinking: {
+      screen: Thinking,
+      navigationOptions: unavigationOptions,
+    }
+  }
+);
+
 const RootDrawer = createDrawerNavigator(
   {
     Home: {
@@ -83,6 +92,9 @@ const RootDrawer = createDrawerNavigator(
     },
     Learning: {
       screen: LearningNavigator
+    },
+    Thinking: {
+      screen: ThinkingNavigator
     }
   }
 );

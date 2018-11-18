@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button, TextInput } from 'react-native';
-import styles from '../Styles';
+import styles from '../../Styles';
 import {Ionicons as Icon} from '@expo/vector-icons';
 
 export default class AddLearning extends React.Component {

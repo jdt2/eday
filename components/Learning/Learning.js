@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button, TextInput, StatusBar } from 'react-native';
-import styles from '../Styles';
+import styles from '../../Styles';
 import {Ionicons as Icon} from '@expo/vector-icons';
 
 export default class Learning extends React.Component {
@@ -9,7 +9,7 @@ export default class Learning extends React.Component {
             drawerLabel: 'Learning',
             drawerIcon: ({ tintColor }) => {
                 <Image
-                    source={require('../assets/icon.png')}
+                    source={require('../../assets/icon.png')}
                     style={[styles.icon, {tintColor: tintColor}]}
                 />
             },

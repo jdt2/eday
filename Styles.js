@@ -43,7 +43,7 @@ export default StyleSheet.create({
     // Goals.js
     goalContent: {
       flex: 1,
-      alignItems: 'center',
+      marginLeft: 15,
       /*justifyContent: 'center',*/
     },
     goal: {
@@ -52,22 +52,26 @@ export default StyleSheet.create({
       height: 50,
     },
     goalTextBox: {
-      margin: 15,
-      height: 40,
-      width: 250,
-      borderColor: "#90CCF4",
-      borderWidth: 1,
+      marginLeft: 10,
+      marginBottom: 20,
     },
     goalText: {
       fontSize: 24,
       fontWeight: 'bold',
+      justifyContent: 'flex-start'
+    },
+    goalButtons: {
+      flex: 1,
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      marginBottom: 20,
     },
     goalButton: {
-      margin: 15,
-      height: 40,
+      marginLeft: 10,
+      backgroundColor: "#3FB0B9",
+      /* height: 40,
       width: 40,
-      backgroundColor: "#90CCF4",
-      alignItems: 'center',
+      alignItems: 'center', */
     },
     goalButtonText: {
       color: 'white'
@@ -76,7 +80,7 @@ export default StyleSheet.create({
     note: {
       marginTop: 20,
       borderWidth: 1,
-      borderColor: "#90CCF4",
+      borderColor: "#3FB0B9",
       justifyContent: "center",
       marginLeft: 15,
       marginRight: 15,
@@ -95,11 +99,34 @@ export default StyleSheet.create({
       fontSize: 36,
       height: 70,
       borderWidth: 1,
-      borderColor: "#90CCF4",
+      borderColor: "#3FB0B9",
     },
     noteTextInput: {
       height: 400,
       borderWidth: 1,
-      borderColor: "#90CCF4",
+      borderColor: "#3FB0B9",
+    },
+    // Thinking
+    thought: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 20,
+    },
+    thoughtText: {
+      alignSelf: 'center',
+      fontSize: 24,
+      marginTop: 80,
+    },
+    thoughtTextBox: {
+      marginTop: 10,
+      marginLeft: 15,
+      fontSize: 24,
+    },
+    thoughtButton: {
+      marginLeft: 15,
+    },
+    thoughtButtonText: {
+
     }
 })
