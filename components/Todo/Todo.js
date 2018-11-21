@@ -1,25 +1,12 @@
 import React from 'react';
 import { AsyncStorage, Image, StyleSheet, View, TouchableOpacity, Dimensions, ScrollView, Animated, AlertIOS, FlatList, Platform } from 'react-native';
-import { Container, Header, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
+import { Input, Container, Header, Title, Content, Button, Card, CardItem, Text, Body, Left, Right, Icon, Footer, Tabs, Tab, List, ListItem } from "native-base";
 import styles from '../../Styles';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class Todo extends React.Component {
-    static navigationOptions = ({navigation}) => {
-      return {
-        drawerLabel: 'Daily Action List',
-        drawerIcon: ({ tintColor }) => {
-          <Image
-            source={require('../../assets/begin_quote.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
-          />
-        },
-        headerTitle: 'Daily Action List',
-      };
-	};
-
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +14,7 @@ export default class Todo extends React.Component {
       data: [
         'Java', 'Python', 'Javascript'
       ],
-      loading: false
+      loading: false,
     }
     this.add = this.add.bind(this);
     this.remove = this.remove.bind(this);
@@ -86,58 +73,33 @@ export default class Todo extends React.Component {
 
   }
 
-
-
   render() {
    
     /* if (!this.state.loading) {
       return <Expo.AppLoading />
     } */
 
-    return (
-      <Container style={styles.container}>
-        <Content>
+    listItems = [];
 
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item, index }) =>
-
-
-              <Card key={index}>
-                <CardItem key={index} style={{ height: 50 }}>
-                  <Body>
-                    <Text>
-                      {item}
-                    </Text>
-                  </Body>
-                  <Right>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: 5, borderRadius: 5, borderColor: '#32CD32' }}
-                      onPress={() => this.remove(index)}>
-                      <FontAwesome name="minus" size={10} color='#32CD32' />
-                    </TouchableOpacity>
-                  </Right>
-                </CardItem>
-              </Card>
-
-            }
-            keyExtractor={item => item.toString()}
-
-          />
-
-
-        </Content>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <TouchableOpacity style={{ backgroundColor: '#32CD32', alignItems: 'center', justifyContent: 'center', padding: 15, borderRadius: 100 }}
-            onPress={() =>
-              this.showForm()
-            }>
+    for (let i = 0; i < 10; i++) {
+      listItems.push(
+        <ListItem style={styles.todo}>
+          <Icon name="add" type="MaterialIcons" style={{fontSize: 24, color: "#C5E7EA"}} />
+          <Input
             
-            <FontAwesome name="plus" size={20} />
+          />
+        </ListItem>
+      );
+    }
 
-          </TouchableOpacity>
-        </View>
+    return (
+      <Container>
+        <Content>
+          <List>
+            {listItems}
+          </List>
+        </Content>
       </Container>
-
     );
   }
 }

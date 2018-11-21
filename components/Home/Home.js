@@ -1,8 +1,9 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { Animated, Platform, StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import styles from '../../Styles';
+import LottieView from 'lottie-react-native';
 
-const quotes = [{
+/* const quotes = [{
   message: 'Stop focusing on dumb shit. Don’t be afraid to break things. Don’t be romantic. Don’t take the time to breathe. Don’t aim for perfect. And whatever you do, keep moving.',
   author: 'Gary Vaynerchuk',
 }, {
@@ -17,18 +18,11 @@ const quotes = [{
 }, {
   message: `I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'`,
   author: 'Muhammad Ali',
-}];
+}]; */
 
 export default class Home extends React.Component {
 	static navigationOptions = ({navigation}) => {
     return {
-      drawerLabel: 'Home',
-      drawerIcon: ({ tintColor }) => {
-        <Image
-          source={require('../../assets/icon.png')}
-          style={[styles.icon, {tintColor: tintColor}]}
-        />
-      },
       headerTitle: 'Home',
     };
   };
@@ -40,11 +34,37 @@ export default class Home extends React.Component {
     this.state = {
       random: parseInt(min+Math.random() * (max-min)),
       quote: null,
+      fadeAnim: new Animated.Value(0),
+      slideUpQuote: new Animated.Value(300),
+      slideUpAuthor: new Animated.Value(400),
     };
   }
   
   componentDidMount() {
     this.getQuote();
+    Animated.timing(
+      this.state.fadeAnim,
+      {
+        toValue: 1,
+        duration: 2000,
+      }
+    ).start();
+
+    Animated.timing(
+      this.state.slideUpQuote,
+      {
+        toValue: 0,
+        duration: 2000,
+      }
+    ).start();
+
+    Animated.timing(
+      this.state.slideUpAuthor,
+      {
+        toValue: 0,
+        duration: 2300,
+      }
+    ).start();
   }
 
   getQuote = async () => {
@@ -78,20 +98,34 @@ export default class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.whole}>
+        <LottieView 
+          source={require("../../assets/animations/fireworks.json")}
+          autoPlay
+          loop
+        />
+        <Animated.View style={[styles.content, {opacity: this.state.fadeAnim}]}>
+          <Animated.View style={[styles.whole, {
+            transform: [
+              {
+                translateY: this.state.slideUpQuote
+              }
+            ]
+          }]}>
             <Image source={require('../../assets/begin_quote.png')} style={{width: 30, height: 20}}/>
             <Text style={styles.quote}>
-              {/*Innovation distinguishes between a leader and a follower*/}
               {currQuote}
             </Text>
-            {/*<Image source={require('./assets/end_quote.png')} style={{width: 30, height: 20}}/>*/}
-          </View>
-          <Text style={styles.from}>
-            {/* Steve Jobs */}
+          </Animated.View>
+          <Animated.Text style={[styles.from, {
+            transform: [
+              {
+                translateY: this.state.slideUpAuthor
+              }
+            ]
+          }]}>
             {currAuthor}
-          </Text>
-        </View>
+          </Animated.Text>
+        </Animated.View>
       </View>
     );
   }

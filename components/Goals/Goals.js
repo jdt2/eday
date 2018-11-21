@@ -1,19 +1,11 @@
 import React from 'react';
 import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput } from 'react-native';
 import styles from '../../Styles';
-import { Input, Container, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label } from "native-base";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import { Input, Container, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label, CheckBox } from "native-base";
+                              
 export default class Goals extends React.Component {
 	static navigationOptions = ({navigation}) => {
     return {
-      drawerLabel: 'Goals',
-      drawerIcon: ({ tintColor }) => {
-        <Image
-          source={require('../../assets/icon.png')}
-          style={[styles.icon, {tintColor: tintColor}]}
-        />
-      },
       headerTitle: 'Goals',
     };
   };
@@ -23,8 +15,10 @@ export default class Goals extends React.Component {
     this.state = {
       goals: [],
       goalFinalized: [],
+      goalActivated: [],
       actionSteps: [],
       actionFinalized: []
+      
     }
   }
 
@@ -75,6 +69,15 @@ export default class Goals extends React.Component {
         //alert(parsed);
       }).then(() => {
         this.finalizeGoals();
+        // now we get the goals that are activated
+        /* await AsyncStorage.getItem("goalActivated").then((value) => {
+          let parsed = JSON.parse(value);
+          if(parsed != null) {
+            this.setState({"goalActivated": parsed});
+          } else {
+            this.setState({"goalActivated": []});
+          }
+        }); */
       }).done();
     } catch (error) {
       alert(error);
@@ -85,6 +88,7 @@ export default class Goals extends React.Component {
     let temp = this.state.actionSteps;
     temp[i] = text;
     this.setState({actionSteps: temp});
+
   }
 
   submitActionSteps() {
@@ -122,7 +126,7 @@ export default class Goals extends React.Component {
     }
   }
 
-  // editing and removing
+  // editing and removing and clearing
   editGoal(i) {
     let temp = this.state.goalFinalized;
     temp[i] = false;
@@ -139,19 +143,37 @@ export default class Goals extends React.Component {
     let temp = this.state.goals;
     temp[i] = null;
     AsyncStorage.setItem('goals', JSON.stringify(temp));
-    this.setState({"goals": temp}).then(() => {
-      this.finalizeGoals();
-    });
+    this.setState({"goals": temp});
+    this.finalizeGoals();
   }
 
   removeAction(i) {
     let temp = this.state.actionSteps;
     temp[i] = null;
     AsyncStorage.setItem('actionSteps', JSON.stringify(temp));
-    this.setState({"actionSteps": temp}).then(() => {
-      this.finalizeActions();
-    });
+    this.setState({"actionSteps": temp});
+    this.finalizeActions();
   }
+
+  clearGoals = () => {
+    this.setState({"goals": []});
+    this.setState({"goalFinalized": []});
+    AsyncStorage.setItem("goals", "");
+  }
+
+  clearActions() {
+    this.setState({"actionSteps": []});
+    this.setState({"actionFinalized": []});
+    AsyncStorage.setItem("actionSteps", "");
+  }
+
+  // when activating a goal
+  /* activateGoal(i) {
+    let temp = this.state.goalActivated;
+    temp[i] = true;
+    this.setState({goalActivated: temp});
+    AsyncStorage.setItem("goalActivated", JSON.parse(temp));
+  } */
 
   render() {
     var goalFields = [];
@@ -159,42 +181,43 @@ export default class Goals extends React.Component {
 
     for(let i = 0; i < 5; i++) {
       if(this.state.goalFinalized == null || this.state.goalFinalized[i] == false || this.state.goalFinalized[i] == undefined) {
+        // set a textbox if there isn't a goal here
         goalFields.push(
           <Item floatingLabel style={styles.goalTextBox}>
             <Label>{"Goal " + (i+1).toString()}</Label>
             <Input
               /*placeholder = {"Goal " + (i+1).toString()}
               placeholderTextColor = "#88B8C3"*/
+              value={this.state.goals[i]}
               onChangeText = {(text) => this.handleGoal(text, i)}
             />
-            {/* <TouchableOpacity
-              style={styles.goalButton}
-              onPress={() => this.goalSubmit(i)}
-            >
-              <Icon style={styles.goalButtonText} name="md-checkmark" size={40} />
-            </TouchableOpacity> */}
           </Item>
         );
       } else {
         goalFields.push(
           <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-            <Text style={styles.goalText}>{i+1}. {this.state.goals[i]}</Text>
-            {/* <View style = {{marginLeft: 'auto'}}> */}
-              <Button
-                transparent
-                small
-                style={{marginLeft: 'auto'}}
-              >
-                <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} />
-              </Button>
-              <Button
-                transparent
-                small
-                style={{marginLeft: 0}}
-              >
-                <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} />
-              </Button>
-            {/*</View>*/}
+            {/* <CheckBox checked={false} color="#3FB0B9" onPress={() => {
+              this.activateGoal(i);
+            }} /> */}
+            <Text style={[styles.goalText]}>
+              {i+1}. {this.state.goals[i]}
+            </Text>
+            <Button
+              transparent
+              small
+              style={{marginLeft: 'auto'}}
+              onPress={() => {this.editGoal(i)}}
+            >
+              {/*<Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} />*/}
+            </Button>
+            <Button
+              transparent
+              small
+              style={{marginLeft: 0}}
+              onPress={() => {this.removeGoal(i)}}
+            >
+              {/* <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} /> */}
+            </Button>
           </View>
         )
       }
@@ -211,36 +234,31 @@ export default class Goals extends React.Component {
             <Input
               /*placeholder = "Action Step"
               placeholderTextColor = "#90CCF4"*/
+              value={this.state.actionSteps[i]}
               onChangeText = {(text) => this.actionStep(text, i)}
             />
-            {/* <TouchableOpacity
-              style={styles.goalButton}
-              onPress={() => this.submitActionStep()}
-            >
-              <Icon style={styles.goalButtonText} name="md-checkmark" size={40} />
-            </TouchableOpacity> */}
           </Item>
         );
       } else {
         aStep.push(
           <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
             <Text style={styles.goalText}>{i+1}. {this.state.actionSteps[i]}</Text>
-            {/* <View style = {{marginLeft: 'auto'}}> */}
-              <Button
-                transparent
-                small
-                style={{marginLeft: 'auto'}}
-              >
-                <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} />
-              </Button>
-              <Button
-                transparent
-                small
-                style={{marginLeft: 0}}
-              >
-                <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} />
-              </Button>
-            {/*</View>*/}
+            <Button
+              transparent
+              small
+              style={{marginLeft: 'auto'}}
+              onPress={() => {this.editAction(i)}}
+            >
+              {/* <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} /> */}
+            </Button>
+            <Button
+              transparent
+              small
+              style={{marginLeft: 0}}
+              onPress={() => {this.removeAction(i)}}
+            >
+              {/* <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} /> */}
+            </Button>
           </View>
         );
       }
@@ -249,7 +267,9 @@ export default class Goals extends React.Component {
     return (
       <Container>
         <Content>
-          <Text style={[styles.textHeader, {marginTop: 20, marginBottom: 5,marginLeft: 15}]}>Goals</Text>
+          <Text style={[styles.textHeader, {marginTop: 20, marginBottom: 5,marginLeft: 15}]}>
+            Goals
+          </Text>
           
           {goalFields}
           <View style={styles.goalButtons}>
@@ -267,8 +287,7 @@ export default class Goals extends React.Component {
               rounded
               style={styles.goalButton}
               onPress={() => {
-                AsyncStorage.clear(null);
-                this.getGoals();
+                this.clearGoals();
               }}
             >
               <Text>Clear Goals</Text>
@@ -276,7 +295,7 @@ export default class Goals extends React.Component {
           </View>
 
           <Text style={[styles.textHeader, {marginBottom: 5, marginLeft: 15}]}>
-            Action Step
+            Action Steps
           </Text>
           
           {aStep}
@@ -294,8 +313,7 @@ export default class Goals extends React.Component {
               rounded
               style={styles.goalButton}
               onPress={() => {
-                AsyncStorage.clear(null);
-                this.updateActionSteps();
+                this.clearActions();
               }}
             >
               <Text>Clear Action Steps</Text>

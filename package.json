@@ -11,9 +11,12 @@
   "dependencies": {
     "@appbaseio/reactivesearch-native": "^0.10.0",
     "expo": "^31.0.2",
+    "lottie-react-native": "^2.5.10",
     "moment": "^2.22.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "react-native-calendars": "^1.21.0",
+    "react-native-global-font": "^1.0.2",
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
     "react-navigation": "^2.18.2"
   },

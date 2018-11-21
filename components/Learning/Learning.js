@@ -6,13 +6,6 @@ import {Ionicons as Icon} from '@expo/vector-icons';
 export default class Learning extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
-            drawerLabel: 'Learning',
-            drawerIcon: ({ tintColor }) => {
-                <Image
-                    source={require('../../assets/icon.png')}
-                    style={[styles.icon, {tintColor: tintColor}]}
-                />
-            },
             headerTitle: 'Learning',
             headerRight: (
                 <TouchableOpacity
