@@ -1,5 +1,6 @@
 import React from 'react';
 import { Animated, Platform, StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import { Container, Content } from 'native-base';
 import styles from '../../Styles';
 import LottieView from 'lottie-react-native';
 
@@ -72,8 +73,8 @@ export default class Home extends React.Component {
       let response = await fetch(
         "http://quotes.rest/qod",
         {
-          "Accept": "applications/json",
-          "Content-Type": "applications/json",
+          "Accept": "application/json",
+          "Content-Type": "application/json",
         }
       );
       let responseJson = response.json().then((data) => {
@@ -98,34 +99,31 @@ export default class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-        <LottieView 
-          source={require("../../assets/animations/fireworks.json")}
-          autoPlay
-          loop
-        />
-        <Animated.View style={[styles.content, {opacity: this.state.fadeAnim}]}>
-          <Animated.View style={[styles.whole, {
-            transform: [
-              {
-                translateY: this.state.slideUpQuote
-              }
-            ]
-          }]}>
-            <Image source={require('../../assets/begin_quote.png')} style={{width: 30, height: 20}}/>
-            <Text style={styles.quote}>
-              {currQuote}
-            </Text>
+          <Animated.View style={[styles.content, {opacity: this.state.fadeAnim}]}>
+            <Animated.View style={[styles.whole, {
+              transform: [
+                {
+                  translateY: this.state.slideUpQuote
+                }
+              ],
+              marginTop: 15,
+            }]}>
+              <Image source={require('../../assets/begin_quote.png')} style={{width: 30, height: 20}}/>
+              <Text style={styles.quote}>
+                {currQuote}
+              </Text>
+            </Animated.View>
+            <Animated.Text style={[styles.from, {
+              transform: [
+                {
+                  translateY: this.state.slideUpAuthor
+                }
+              ],
+              marginBottom: 15,
+            }]}>
+              {currAuthor}
+            </Animated.Text>
           </Animated.View>
-          <Animated.Text style={[styles.from, {
-            transform: [
-              {
-                translateY: this.state.slideUpAuthor
-              }
-            ]
-          }]}>
-            {currAuthor}
-          </Animated.Text>
-        </Animated.View>
       </View>
     );
   }

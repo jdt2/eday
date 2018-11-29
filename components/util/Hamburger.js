@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
-import { Ionicons as Icon } from '@expo/vector-icons';
+import { Icon } from 'native-base';
 import styles from '../../Styles';
 
 export default class Hamburger extends React.Component {
@@ -13,7 +13,7 @@ export default class Hamburger extends React.Component {
                         onPress={() => {this.props.func()
                         }}
                     >
-                        <Icon name="md-menu" size={30} color="#FFF" />
+                        <Icon name="menu" type="MaterialIcons" style={{fontSize: 25, color: "#FFF"}} />
                     </TouchableOpacity>
                 </View>
             </View>

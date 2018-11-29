@@ -14,7 +14,7 @@ export default class AddLearning extends React.Component {
                     style={styles.headerRight}
                     onPress={() => params.handleNote()}
                 >
-                    <Icon name="md-checkmark" size={30} color="#FFF" />
+                    <Icon name="md-checkmark" size={25} color="#FFF" />
                 </TouchableOpacity>
             ),
         };

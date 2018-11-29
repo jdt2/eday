@@ -1,7 +1,9 @@
 import React from 'react';
-import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput } from 'react-native';
+import { Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated } from 'react-native';
 import styles from '../../Styles';
-import { Input, Container, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label, CheckBox } from "native-base";
+import { Input, Container, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label } from "native-base";
+import CheckBox from './../util/CheckBox';
+import LottieView from 'lottie-react-native';
                               
 export default class Goals extends React.Component {
 	static navigationOptions = ({navigation}) => {
@@ -13,12 +15,14 @@ export default class Goals extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goals: [],
-      goalFinalized: [],
-      goalActivated: [],
+      goals: new Array(5).fill(null),
+      goalFinalized: new Array(5).fill(null),
+      goalActivated: new Array(5).fill(null),
       actionSteps: [],
-      actionFinalized: []
-      
+      actionFinalized: [],
+      // Animations
+      animating: false,
+      animateValue: new Animated.Value(0),
     }
   }
 
@@ -42,11 +46,17 @@ export default class Goals extends React.Component {
     AsyncStorage.setItem('goals', jsonString);
     this.getGoals(); */
     AsyncStorage.setItem("goals", JSON.stringify(this.state.goals));
+    // check if it's the last goal, then add another one that's null
+    if(this.state.goals[this.state.goals.length-1] != null) {
+      let temp = this.state.goals;
+      temp[this.state.goals.length] = null;
+      this.setState({goals: temp});
+    }
     this.finalizeGoals();
   }
 
   finalizeGoals() {
-    for(let i = 0; i < 5; i++) {
+    for(let i = 0; i < this.state.goals.length; i++) {
       let temp = this.state.goalFinalized;
       if(this.state.goals[i] != null && this.state.goals[i] != undefined) {
         temp[i] = true;
@@ -64,20 +74,21 @@ export default class Goals extends React.Component {
         if(parsed != null) {
           this.setState({"goals": parsed});
         } else {
-          this.setState({"goals": []});
+          this.setState({"goals": new Array(5).fill(null)});
         }
         //alert(parsed);
       }).then(() => {
         this.finalizeGoals();
-        // now we get the goals that are activated
-        /* await AsyncStorage.getItem("goalActivated").then((value) => {
-          let parsed = JSON.parse(value);
-          if(parsed != null) {
-            this.setState({"goalActivated": parsed});
-          } else {
-            this.setState({"goalActivated": []});
-          }
-        }); */
+        
+      }).done();
+      // now we get the goals that are activated
+      await AsyncStorage.getItem("goalActivated").then((value) => {
+        let parsed = JSON.parse(value);
+        if(parsed != null) {
+          this.setState({"goalActivated": parsed});
+        } else {
+          this.setState({"goalActivated": new Array(5).fill(null)});
+        }
       }).done();
     } catch (error) {
       alert(error);
@@ -141,9 +152,13 @@ export default class Goals extends React.Component {
 
   removeGoal(i) {
     let temp = this.state.goals;
+    let temp1 = this.state.goalActivated;
     temp[i] = null;
+    temp1[i] = false;
     AsyncStorage.setItem('goals', JSON.stringify(temp));
+    AsyncStorage.setItem('goalActivated', JSON.stringify(temp1));
     this.setState({"goals": temp});
+    this.setState({"goalActivated": temp1});
     this.finalizeGoals();
   }
 
@@ -168,18 +183,39 @@ export default class Goals extends React.Component {
   }
 
   // when activating a goal
-  /* activateGoal(i) {
+  activateGoal = async (i) => {
     let temp = this.state.goalActivated;
-    temp[i] = true;
+    if(temp[i] == true) {
+      temp[i] = false;
+    } else {
+      temp[i] = true;
+      await this.setState({animating: true}, () => {
+        // Animation
+        Animated.timing(
+          this.state.animateValue,
+          {
+            toValue: 1,
+            duration: 3000,
+            easing: Easing.linear,
+          }
+        ).start(({ finished }) => {
+          if(finished) {
+            this.setState({animating: false});
+            this.setState({animateValue: new Animated.Value(0)});
+          }
+        });
+      });
+
+    }
     this.setState({goalActivated: temp});
-    AsyncStorage.setItem("goalActivated", JSON.parse(temp));
-  } */
+    AsyncStorage.setItem("goalActivated", JSON.stringify(temp));
+  }
 
   render() {
     var goalFields = [];
     //this.getGoals();
 
-    for(let i = 0; i < 5; i++) {
+    for(let i = 0; i < this.state.goals.length; i++) {
       if(this.state.goalFinalized == null || this.state.goalFinalized[i] == false || this.state.goalFinalized[i] == undefined) {
         // set a textbox if there isn't a goal here
         goalFields.push(
@@ -196,11 +232,11 @@ export default class Goals extends React.Component {
       } else {
         goalFields.push(
           <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-            {/* <CheckBox checked={false} color="#3FB0B9" onPress={() => {
+            <CheckBox key={i} checked={this.state.goalActivated[i]} style={{color: "#3FB0B9"}} clicked={() => {
               this.activateGoal(i);
-            }} /> */}
-            <Text style={[styles.goalText]}>
-              {i+1}. {this.state.goals[i]}
+            }} />
+            <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+              {/*i+1. */}{this.state.goals[i]}
             </Text>
             <Button
               transparent
@@ -208,7 +244,7 @@ export default class Goals extends React.Component {
               style={{marginLeft: 'auto'}}
               onPress={() => {this.editGoal(i)}}
             >
-              {/*<Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} />*/}
+              {this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} /> : null}
             </Button>
             <Button
               transparent
@@ -216,7 +252,7 @@ export default class Goals extends React.Component {
               style={{marginLeft: 0}}
               onPress={() => {this.removeGoal(i)}}
             >
-              {/* <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} /> */}
+              <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} />
             </Button>
           </View>
         )
@@ -249,7 +285,7 @@ export default class Goals extends React.Component {
               style={{marginLeft: 'auto'}}
               onPress={() => {this.editAction(i)}}
             >
-              {/* <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} /> */}
+              <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} />
             </Button>
             <Button
               transparent
@@ -257,20 +293,35 @@ export default class Goals extends React.Component {
               style={{marginLeft: 0}}
               onPress={() => {this.removeAction(i)}}
             >
-              {/* <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} /> */}
+              <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} />
             </Button>
           </View>
         );
       }
     }
 
+    var AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
+
     return (
       <Container>
+        { this.state.animating ?
+          <AnimatedLottieView 
+            progress={this.state.animateValue}
+            source={require("../../assets/animations/fireworks.json")}
+            /*ref={animation => {
+              this.animation = animation;
+            }}*/
+            loop = {false}
+            style={{
+              position: "absolute",
+              zIndex: 1,
+            }}
+          /> : null
+        }
         <Content>
           <Text style={[styles.textHeader, {marginTop: 20, marginBottom: 5,marginLeft: 15}]}>
             Goals
           </Text>
-          
           {goalFields}
           <View style={styles.goalButtons}>
             <Button

@@ -12,7 +12,7 @@ export default class Learning extends React.Component {
                     style={styles.headerRight}
                     onPress={() => navigation.navigate("AddNote")}
                 >
-                    <Icon name="md-add" size={30} color="#FFF" />
+                    <Icon name="md-add" size={25} color="#FFF" />
                 </TouchableOpacity>
             ),
         };
@@ -50,6 +50,11 @@ export default class Learning extends React.Component {
         }
     }
 
+    clearNotes() {
+        this.setState({"notes": []});
+        AsyncStorage.removeItem("notes");
+    }
+
     render() {
         var notes = [];
 
@@ -68,8 +73,7 @@ export default class Learning extends React.Component {
 
                 <Button 
                     onPress={() => {
-                        AsyncStorage.clear(null);
-                        this.getNotes();
+                        this.clearNotes();
                     }}
                     title="Clear"
                 />

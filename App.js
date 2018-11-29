@@ -4,7 +4,6 @@ import styles from './Styles';
 import { createDrawerNavigator, createStackNavigator, DrawerItems } from 'react-navigation';
 import Goals from './components/Goals/Goals';
 import Home from './components/Home/Home';
-import Todo from './components/Todo/Todo';
 import Learning from './components/Learning/Learning';
 import Thinking from './components/Thinking/Thinking';
 import AddLearning from './components/Learning/AddLearning';
@@ -12,9 +11,10 @@ import Hamburger from './components/util/Hamburger';
 import { Icon } from 'native-base';
 import Summary from './components/Summary/Summary';
 import DailyAction from './components/Todo/DailyAction';
-import AddTodo from './components/Todo/AddTodo';
 import GlobalFont from 'react-native-global-font';
-import LottieView from 'lottie-react-native';
+import TodoPage from './components/Todo/TodoPage';
+import AddAgenda from './components/Todo/AddAgenda';
+import Mindset from './components/Mindset/Mindset';
 
 const unavigationOptions = ({navigation}) => {
   return {
@@ -69,12 +69,16 @@ const GoalsNavigator = createStackNavigator(
 
 const TodoNavigator = createStackNavigator(
   {
-    Todo: {
+    DailyAction: {
       screen: DailyAction,
       navigationOptions: unavigationOptions,
     },
-    AddTodo: {
-      screen: AddTodo,
+    TodoPage: {
+      screen: TodoPage,
+      navigationOptions: stackNavigationOptions,
+    },
+    AddAgenda: {
+      screen: AddAgenda,
       navigationOptions: stackNavigationOptions,
     }
   }
@@ -98,10 +102,19 @@ const SummaryNavigator = createStackNavigator(
   }
 );
 
+const MindsetNavigator = createStackNavigator(
+  {
+    Mindset: {
+      screen: Mindset,
+      navigationOptions: unavigationOptions,
+    }
+  }
+)
+
 const CustomDrawerComponent = (props) => (
   <SafeAreaView>
     <View style={{height: 150,backgroundColor: 'white',alignItems: 'center', marginBottom: 20,}}>
-      <Image source={require('./assets/logoIcon.png')} style={{height: 150, width: 150,borderRadius: 75,}} />
+      <Image source={require('./assets/logoIcon.png')} style={{height: 150, width: 150, borderRadius: 75,}} />
     </View>
     <ScrollView style={{color: 'white'}}>
       <DrawerItems {...props}/>
@@ -138,10 +151,10 @@ const RootDrawer = createDrawerNavigator(
         ),
       }
     },
-    Todo: {
+    TodoNavigator: {
       screen: TodoNavigator,
       navigationOptions: {
-        drawerLabel: "Daily Action List",
+        drawerLabel: "Daily Learning List",
         drawerIcon: ({tintColor}) => (
           <Icon
             name="assignment"
@@ -172,6 +185,19 @@ const RootDrawer = createDrawerNavigator(
           <Icon
             name="lightbulb-outline"
             type="MaterialIcons"
+            style={{fontSize: 24, color: tintColor}}
+          />
+        ),
+      }
+    },
+    Mindset: {
+      screen: MindsetNavigator,
+      navigationOptions: {
+        drawerLabel: "Mindset",
+        drawerIcon: ({tintColor}) => (
+          <Icon
+            name="brain"
+            type="MaterialCommunityIcons"
             style={{fontSize: 24, color: tintColor}}
           />
         ),
@@ -208,6 +234,7 @@ export default class App extends React.Component {
 
     return (
       <RootDrawer />
+      /* <TodoNavigator /> */
     );
   }
 }

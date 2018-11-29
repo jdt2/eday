@@ -22,6 +22,10 @@ export default StyleSheet.create({
     headerRight: {
       paddingRight: 15,
     },
+    headerRightText: {
+      fontSize: 18,
+      color: "#FFF",
+    },
     // Home.js
     content: {
       flex: 1,
@@ -130,7 +134,7 @@ export default StyleSheet.create({
     thoughtButtonText: {
 
     },
-    // DailyAgenda.js
+    // DailyAgenda in DailyAction.js
     emptyDate: {
       height: 15,
       flex:1,
@@ -142,10 +146,32 @@ export default StyleSheet.create({
       borderRadius: 5,
       padding: 10,
       marginRight: 10,
-      marginTop: 17
+      marginTop: 7,
+      marginBottom: 10,
+      height: 60,
     },
-    // Todo.js
+    // Todo in DailyAction.js
     todo: {
       height: 50,
-    }
+    },
+    todoTextBox: {
+      marginLeft: 10,
+    },
+    todoFooter: {
+      height: 50,
+      backgroundColor: "white",
+    },
+    // TodoPage.js
+    todoDelete: {
+      marginTop: 20,
+      flex: 1,
+      flexDirection: "row",
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    todoDeleteText: {
+      color: "red",
+      fontSize: 18,
+    },
+
 })
