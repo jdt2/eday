@@ -1,5 +1,5 @@
 import React from 'React';
-import { Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground } from 'react-native';
+import { ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground } from 'react-native';
 import styles from '../../Styles';
 import { Input, Container, Title, Content, Icon, Button, Card, Text, CardItem, Body, Left, Right, IconNB, Footer, Item, Label, ScrollableTab, Tabs, Tab } from "native-base";
 import moment from 'moment';
@@ -172,19 +172,23 @@ export default class Summary extends React.Component {
             if(this.state.goals[i]) {
                 if(!this.state.goalActivated[i]) {
                     goalNotCompletedList.push(
-                        <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                            <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
-                            {i+1}. {this.state.goals[i]}
-                            </Text>
-                        </View>
+                        <CardItem>
+                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                                <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                                {i+1}. {this.state.goals[i]}
+                                </Text>
+                            </Body>
+                        </CardItem>
                     );
                 } else {
                     goalCompleted.push(
-                        <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                            <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
-                            {i+1}. {this.state.goals[i]}
-                            </Text>
-                        </View>
+                        <CardItem>
+                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                                <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                                {i+1}. {this.state.goals[i]}
+                                </Text>
+                            </Body>
+                        </CardItem>
                     )
                 }
             }
@@ -195,9 +199,13 @@ export default class Summary extends React.Component {
         for (let i = 0; i < this.state.actionSteps.length; i++) {
             if(this.state.actionSteps[i]) {
                 actionStepList.push(
-                    <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                        <Text style={styles.goalText}>{i+1}. {this.state.actionSteps[i]}</Text>
-                    </View>
+                    <CardItem>
+                        <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                            <Text style={styles.goalText}>
+                            {i+1}. {this.state.actionSteps[i]}
+                            </Text>
+                        </Body>
+                    </CardItem>
                 );
             }
         }
@@ -209,11 +217,18 @@ export default class Summary extends React.Component {
             for(let i = 0; i < item.length; i++) {
                 if(item[i] && !item[i].add) {
                     agendaList.push(
-                        <View style={[styles.item]}>
-                            <Text>
-                                {moment(item[i].date).format("YYYY-MM-DD h:mm a")}: {item[i].text}
-                            </Text>
-                        </View>
+                        <Card /*style={[styles.item]}*/>
+                            <CardItem header>
+                                <Text>
+                                    {moment(item[i].date).format("YYYY-MM-DD h:mm a")}:
+                                </Text>
+                            </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <Text>{item[i].text}</Text>
+                                </Body>
+                            </CardItem>
+                        </Card>
                     );
                 }
             }
@@ -225,19 +240,23 @@ export default class Summary extends React.Component {
             if(this.state.actions[i]) {
                 if(!this.state.actionsActivated[i]) {
                     actionNotCompletedList.push(
-                        <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                            <Text style={[styles.todoTextBox]}>
-                                {this.state.actions[i]}
-                            </Text>
-                        </View>
+                        <CardItem>
+                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                                <Text style={[styles.todoTextBox]}>
+                                    {this.state.actions[i]}
+                                </Text>
+                            </Body>
+                        </CardItem>
                     );
                 } else {
                     actionCompleted.push(
-                        <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                            <Text style={[styles.todoTextBox]}>
-                                {this.state.actions[i]}
-                            </Text>
-                        </View>
+                        <CardItem>
+                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                                <Text style={[styles.todoTextBox, {color: "green"}]}>
+                                    {this.state.actions[i]}
+                                </Text>
+                            </Body>
+                        </CardItem>
                     )
                 }
             }
@@ -247,11 +266,20 @@ export default class Summary extends React.Component {
         learningList = [];
         for (let i = 0; i < this.state.learning.length; i++) {
             if(this.state.learning[i]) {
+                console.log(this.state.learning[i]);
                 learningList.push(
-                    <View style={styles.note}>
-                        <Text style={styles.noteTitle}>{this.state.learning[i][0]}</Text>
-                        <Text style={styles.noteText} numberOfLines={1}>{this.state.learning[i][1]}</Text>
-                    </View>
+                    <Card /*style={[styles.item]}*/>
+                        <CardItem header>
+                            <Text>
+                                {this.state.learning[i].title}
+                            </Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>{this.state.learning[i].text}</Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
                 );
             }
         }
@@ -287,71 +315,89 @@ export default class Summary extends React.Component {
         // add placeholder if it's empty
         if(goalNotCompletedList.length == 0) {
             goalNotCompletedList = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                    <Text style={[styles.goalText, {marginLeft: 10}]}>
-                        No Goals Not Completed!
-                    </Text>
-                </View>
+                <CardItem>
+                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                            No Goals Not Completed!
+                        </Text>
+                    </Body>
+                </CardItem>
             )]
         }
         
         if(goalCompleted.length == 0) {
             goalCompleted = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                    <Text style={[styles.goalText, {marginLeft: 10}]}>
-                        No Goals Completed!
-                    </Text>
-                </View>
+                <CardItem>
+                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                            No Goals Completed!
+                        </Text>
+                    </Body>
+                </CardItem>
             )]
         }
         
         // Agenda
         if(agendaList.length == 0) {
             agendaList = [(
-                <View style={[styles.item]}>
-                    <Text>
-                        Nothing in your agenda!
-                    </Text>
-                </View>
+                <Card /*style={[styles.item]}*/>
+                    <CardItem header>
+                        <Text>
+                            Nothing in the Daily Agenda!
+                        </Text>
+                    </CardItem>
+                </Card>
             )];
         }
 
         // Daily Actions
         if(actionCompleted.length == 0) {
             actionCompleted = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                    <Text style={[styles.todoTextBox]}>
-                        No Completed Actions!
-                    </Text>
-                </View>
+                <CardItem>
+                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.todoTextBox]}>
+                            No Completed Actions!
+                        </Text>
+                    </Body>
+                </CardItem>
             )];
         }
 
         if(actionNotCompletedList.length == 0) {
             actionNotCompletedList = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                    <Text style={[styles.todoTextBox]}>
-                        No Uncompleted Actions!
-                    </Text>
-                </View>
+                <CardItem>
+                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.todoTextBox]}>
+                            No Actions Not Completed!
+                        </Text>
+                    </Body>
+                </CardItem>
             )];
         }
 
         // Action Steps
         if(actionStepList.length == 0) {
             actionStepList = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                    <Text style={styles.goalText}>No Action Steps!</Text>
-                </View>
+                <CardItem>
+                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={styles.goalText}>
+                            No Action Steps!
+                        </Text>
+                    </Body>
+                </CardItem>
             )];
         }
 
         // Learning
         if(learningList.length == 0) {
             learningList = [(
-                <View style={styles.note}>
-                    <Text style={styles.noteTitle}>Nothing in Learning!</Text>
-                </View>
+                <Card /*style={[styles.item]}*/>
+                    <CardItem header>
+                        <Text>
+                            Nothing in Learning!
+                        </Text>
+                    </CardItem>
+                </Card>
             )];
         }
 
@@ -377,37 +423,76 @@ export default class Summary extends React.Component {
 
         return (
             <Container>
+                <Button
+                    onPress={() => {
+                        AsyncStorage.clear();
+                    }}
+                >
+                    <Text>Clear All (DEBUG BUTTON ONLY)</Text>
+                </Button>
                 <Tabs locked
                     initialPage={0}
                     tabBarUnderlineStyle={{backgroundColor: "#3FB0B9"}}
                     renderTabBar={() => <ScrollableTab />}
                 >
                     <Tab heading="Goals" activeTextStyle={{color: "#3FB0B9"}}>
-                        {/* Goals */}
-                        <Text>Completed</Text>
-                        {goalCompleted}
-                        <Text>Not Completed</Text>
-                        {goalNotCompletedList}
-                        <Text>Action Steps</Text>
-                        {actionStepList}
+                        <ScrollView>
+                            {/* Goals */}
+                            <Card>
+                                <CardItem header>
+                                    <Text style={{color: "green"}}>Completed</Text>
+                                </CardItem>
+                                {goalCompleted}
+                            </Card>
+                            <Card>
+                                <CardItem header>
+                                    <Text>Not Completed</Text>
+                                </CardItem>
+                                {goalNotCompletedList}
+                            </Card>
+                            <Card>
+                                <CardItem header>
+                                    <Text>Action Steps</Text>
+                                </CardItem>
+                                {actionStepList}
+                            </Card>
+                        </ScrollView>
                     </Tab>
                     <Tab heading="Daily Agenda" activeTextStyle={{color: "#3FB0B9"}}>
-                        {agendaList}
+                        <ScrollView>
+                            {agendaList}
+                        </ScrollView>
                     </Tab>
-                    <Tab heading="Daily Learning List" activeTextStyle={{color: "#3FB0B9"}}>
-                        <Text>Completed</Text>
-                        {actionCompleted}
-                        <Text>Not Completed</Text>
-                        {actionNotCompletedList}
+                    <Tab heading="Schedule" activeTextStyle={{color: "#3FB0B9"}}>
+                        <ScrollView>
+                            <Card>
+                                <CardItem header>
+                                    <Text style={{color: "green"}}>Completed</Text>
+                                </CardItem>
+                                {actionCompleted}
+                            </Card>
+                            <Card>
+                                <CardItem header>
+                                    <Text>Not Completed</Text>
+                                </CardItem>
+                                {actionNotCompletedList}
+                            </Card>
+                        </ScrollView>
                     </Tab>
                     <Tab heading="Learning" activeTextStyle={{color: "#3FB0B9"}}>
-                        {learningList}
+                        <ScrollView>
+                            {learningList}
+                        </ScrollView>
                     </Tab>
                     <Tab heading="Thinking" activeTextStyle={{color: "#3FB0B9"}}>
-                        {thoughtList}
+                        <ScrollView>
+                            {thoughtList}
+                        </ScrollView>
                     </Tab>
                     <Tab heading="Mindset" activeTextStyle={{color: "#3FB0B9"}}>
-                        {mindsetList}
+                        <ScrollView>
+                            {mindsetList}
+                        </ScrollView>
                     </Tab>
                 </Tabs>
             </Container>

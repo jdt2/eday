@@ -43,10 +43,9 @@ export default class CheckBox extends Component {
         alert(this.state.isCheck);
       } */
       if(this.props.checked === undefined || this.props.checked === null) {
-        console.log("here");
         icon = "check-box-outline-blank";
       } else {
-        console.log("this.props.checked: " + this.props.checked);
+        /* console.log("this.props.checked: " + this.props.checked); */
         icon = this.props.checked ? "check-box" : "check-box-outline-blank";
       }
     }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button, TextInput } from 'react-native';
+import { KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button } from 'react-native';
+import { Container, Content, Form, Textarea, Item, Input, Label } from 'native-base';
 import styles from '../../Styles';
 import {Ionicons as Icon} from '@expo/vector-icons';
 
@@ -38,12 +39,10 @@ export default class AddLearning extends React.Component {
                 let parsed = JSON.parse(value);
                 /* alert(parsed); */
                 let newArr = [];
-                if(parsed.length > 0) {
-                    newArr = [parsed, [this.state.title, this.state.text]];
-                } else {
-                    newArr = [[this.state.title, this.state.text]];
-                }
-                AsyncStorage.setItem("notes", JSON.stringify(newArr));
+                if (this.state.title.length == 0 || this.state.text.length == 0) return;
+                if(!parsed) parsed = [];
+                parsed.push({title: this.state.title, text: this.state.text});
+                AsyncStorage.setItem("notes", JSON.stringify(parsed));
                 this.props.navigation.navigate("Learning");
             });
         } catch (error) {
@@ -53,22 +52,31 @@ export default class AddLearning extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TextInput
-                    style={styles.noteTitleInput}
-                    onChangeText={(text) => this.setState({title: text})}
-                    placeholder="Note Title"
-                    placeholderTextColor = "#88B8C3"
-                />
-                <TextInput
-                    style={styles.noteTextInput}
-                    multiline={true}
-                    numberOfLines={10}
-                    onChangeText={(text) => this.setState({text: text})}
-                    placeholder="Type what you learned here"
-                    placeholderTextColor = "#88B8C3"
-                />
-            </View>
+            <Container>
+                <Content>
+                    <Form>
+                        <Item floatingLabel style={{marginBottom: 10,}}>
+                            <Label>Title</Label>
+                            <Input onChangeText={(text) => this.setState({title: text})} />
+                        </Item>
+                        <Textarea rowSpan={10} bordered placeholder="Insert note here" onChangeText={(text) => this.setState({text: text})} />
+                        {/* <TextInput
+                            style={styles.noteTitleInput}
+                            }
+                            placeholder="Note Title"
+                            placeholderTextColor = "#88B8C3"
+                        />
+                        <TextInput
+                            style={styles.noteTextInput}
+                            multiline={true}
+                            numberOfLines={10}
+                            onChangeText={(text) => this.setState({text: text})}
+                            placeholder="Type what you learned here"
+                            placeholderTextColor = "#88B8C3"
+                        /> */}
+                    </Form>
+                </Content>
+            </Container>
         );
     }
 }

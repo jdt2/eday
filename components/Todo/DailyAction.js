@@ -12,7 +12,7 @@ export default class DailyAction extends React.Component {
     static navigationOptions = ({navigation}) => {
 
         return {
-          headerTitle: 'Daily Learning List',
+          headerTitle: 'Schedule',
         };
     };
 
@@ -124,6 +124,7 @@ export default class DailyAction extends React.Component {
                         <Input
                             placeholder="Enter your daily action"
                             placeholderTextColor="#88B8C3"
+                            autoFocus={true}
                             onChangeText={(text) => {
                                 this.handleInput(text, i);
                             }}
@@ -200,12 +201,18 @@ export default class DailyAction extends React.Component {
     renderDailyAgenda() {
         return (
             <Container>
-                <Button
-                    transparent
-                    onPress={() => {this.props.navigation.navigate("AddAgenda")}}
-                >
-                    <Text>Add an item to your agenda</Text>    
-                </Button>
+                <Card transparent>
+                    <CardItem>
+                        <Left />
+                        <Button
+                            primary
+                            onPress={() => {this.props.navigation.navigate("AddAgenda")}}
+                        >
+                            <Text>Add an item to your agenda</Text>    
+                        </Button>
+                        <Right/>
+                    </CardItem>
+                </Card>
                 
                 <Agenda
                 items={this.state.items}
@@ -314,12 +321,12 @@ export default class DailyAction extends React.Component {
     renderEmptyDate() {
         return (
             <View style={styles.emptyDate}>
-                <Button
+                {/*<Button
                     transparent
                     onPress={() => {this.props.navigation.navigate("AddAgenda")}}
-                >
-                    <Text>Add an item to your agenda</Text>    
-                </Button>
+                    >*/}
+                    <Text>Add an item to your agenda with the button above</Text>    
+                {/*</Button>*/}
             </View>
         );
     }

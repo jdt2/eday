@@ -38,24 +38,29 @@ export default class Goals extends React.Component {
     this.setState({goals: editGoals});
   }
 
-  goalSubmit() {
+  goalSubmit = async () => {
     /* let editSavedGoals = [this.state.savedGoals];
     editSavedGoals[i] = this.state.currGoals[i];
     this.setState({savedGoals: editSavedGoals});
     let jsonString = JSON.stringify(editSavedGoals);
     AsyncStorage.setItem('goals', jsonString);
     this.getGoals(); */
-    AsyncStorage.setItem("goals", JSON.stringify(this.state.goals));
-    // check if it's the last goal, then add another one that's null
     if(this.state.goals[this.state.goals.length-1] != null) {
       let temp = this.state.goals;
       temp[this.state.goals.length] = null;
+      console.log(temp);
       this.setState({goals: temp});
+      AsyncStorage.setItem("goals", JSON.stringify(this.state.goals));
+      // check if it's the last goal, then add another one that's null
+      this.finalizeGoals();
+    } else {
+      AsyncStorage.setItem("goals", JSON.stringify(this.state.goals));
+      // check if it's the last goal, then add another one that's null
+      this.finalizeGoals();
     }
-    this.finalizeGoals();
   }
 
-  finalizeGoals() {
+  finalizeGoals = async () => {
     for(let i = 0; i < this.state.goals.length; i++) {
       let temp = this.state.goalFinalized;
       if(this.state.goals[i] != null && this.state.goals[i] != undefined) {
@@ -171,9 +176,9 @@ export default class Goals extends React.Component {
   }
 
   clearGoals = () => {
-    this.setState({"goals": []});
-    this.setState({"goalFinalized": []});
-    AsyncStorage.setItem("goals", "");
+    this.setState({"goals": new Array(5).fill(null)});
+    this.setState({"goalFinalized": new Array(5).fill(null)});
+    AsyncStorage.removeItem("goals");
   }
 
   clearActions() {

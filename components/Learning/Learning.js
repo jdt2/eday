@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, Text, View, Image, Button, TextInput, StatusBar } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, Button, TextInput, StatusBar } from 'react-native';
+import { Card, CardItem, Text, Body, Container, Content } from 'native-base';
 import styles from '../../Styles';
 import {Ionicons as Icon} from '@expo/vector-icons';
 
@@ -57,28 +58,36 @@ export default class Learning extends React.Component {
 
     render() {
         var notes = [];
-
-        for (let i = 0; i < this.state.notes.length; i++) {
+        console.log(this.state.notes);
+        for (let i = this.state.notes.length-1; i >= 0; i--) {
             notes.push(
-                
-                <View style={styles.note}>
-                    <Text style={styles.noteTitle}>{this.state.notes[i][0]}</Text>
-                    <Text style={styles.noteText} numberOfLines={1}>{this.state.notes[i][1]}</Text>
-                </View>
+                <Card style={{marginLeft: 10, marginRight: 10,}}>
+                    <CardItem header>
+                        <Text>{this.state.notes[i].title}</Text>
+                    </CardItem>
+                    <CardItem>
+                        <Body>
+                            <Text numberOfLines={1}>
+                                {this.state.notes[i].text}
+                            </Text>
+                        </Body>
+                    </CardItem>
+                </Card>
             );
         }
 
         return (
-            <ScrollView style={styles.container}>
-
-                <Button 
-                    onPress={() => {
-                        this.clearNotes();
-                    }}
-                    title="Clear"
-                />
-                {notes}
-            </ScrollView>
+            <Container>
+                <Content style={{paddingTop: 10,}}>
+                    <Button 
+                        onPress={() => {
+                            this.clearNotes();
+                        }}
+                        title="Clear"
+                    />
+                    {notes}
+                </Content>
+            </Container>
         );
     }
 }

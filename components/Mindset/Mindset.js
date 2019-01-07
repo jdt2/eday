@@ -83,7 +83,7 @@ export default class Mindset extends React.Component {
             if(this.state.mindsetFinalized == null || this.state.mindsetFinalized[i] == false || this.state.mindsetFinalized[i] == undefined) {
               // set a textbox if there isn't a goal here
               mindsetFields.push(
-                <Item floatingLabel style={[styles.goalTextBox]}>
+                <Item inlineLabel style={[styles.goalTextBox]}>
                     <Label>I am...</Label>
                     <Input
                         /*placeholder = {"Goal " + (i+1).toString()}
@@ -97,7 +97,7 @@ export default class Mindset extends React.Component {
             } else {
                 mindsetFields.push(
                     <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                        <Text style={[styles.goalText, {marginLeft: 10, color: "black"}]}>
+                        <Text style={[styles.goalText, {marginLeft: 10, color: "black",}]}>
                             I am {this.state.mindset[i]}
                         </Text>
                         {/* <Button

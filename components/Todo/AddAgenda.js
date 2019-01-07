@@ -55,23 +55,19 @@ export default class AddAgenda extends React.Component {
         try {
             await AsyncStorage.getItem("agenda").then((value) => {
                 let parsed = JSON.parse(value);
-                let dateString = this.getDate().toISOString().split("T")[0];
+                let dateString = this.state.date;
+                console.log("Date string: " + dateString);
                 let newArr = {};
-                if(parsed != null) {
-                    newArr = parsed;
-                    if(newArr[dateString] != null) {
-                        newArr[dateString].push({date: this.getDate(), text: this.state.text});
-                    } else {
-                        newArr[dateString]= [{date: this.getDate(), text: this.state.text}];
-                    }
-                } else {
-                    newArr = {};
-                    newArr[dateString] = [{date: this.getDate(), text: this.state.text}];
-                }
-                newArr[dateString].sort((a,b) => {
+
+                if(this.state.text.length == 0) return;
+                if(parsed == null) parsed = {};
+                if(parsed[dateString] == null) parsed[dateString] = [];
+                parsed[dateString].push({date: this.getDate(), text: this.state.text});
+            
+                /* newArr[dateString].sort((a,b) => {
                     return new Date(b.date) - new Date(a.date);
-                });
-                AsyncStorage.setItem("agenda", JSON.stringify(newArr)).then(() => {
+                }); */
+                AsyncStorage.setItem("agenda", JSON.stringify(parsed)).then(() => {
                     this.props.navigation.navigate("DailyAction");
                 });
             });
@@ -91,54 +87,62 @@ export default class AddAgenda extends React.Component {
                                 onChangeText={(text) => {this.handleText(text)}}
                             />
                         </Item>
-                        <DatePicker
-                            style={{width: 200}}
-                            date={this.state.date}
-                            mode="date"
-                            placeholder="select date"
-                            format="YYYY-MM-DD"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-                                marginLeft: 36
-                            }
-                            // ... You can check the source to find the other keys.
-                            }}
-                            onDateChange={(date) => {this.setState({date: date})}}
-                        />
-                        <DatePicker
-                            style={{width: 200}}
-                            date={this.state.time}
-                            mode="time"
-                            placeholder="select time"
-                            format="h:mm a"
-                            is24Hour={false}
-                            minuteInterval={10}
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-                                marginLeft: 36
-                            }
-                            // ... You can check the source to find the other keys.
-                            }}
-                            onDateChange={(time) => {
-                                this.setState({time: time});
-                            }}
-                        />
+                        <Card transparent>
+                            <CardItem>
+                                <Left>
+                                    <DatePicker
+                                        style={{width: 150,}}
+                                        date={this.state.date}
+                                        mode="date"
+                                        placeholder="select date"
+                                        format="YYYY-MM-DD"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        customStyles={{
+                                        dateIcon: {
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: 4,
+                                            marginLeft: 0
+                                        },
+                                        dateInput: {
+                                            marginLeft: 36
+                                        }
+                                        // ... You can check the source to find the other keys.
+                                        }}
+                                        onDateChange={(date) => {this.setState({date: date})}}
+                                    />
+                                </Left>
+                                <Right>
+                                    <DatePicker
+                                        style={{width: 150}}
+                                        date={this.state.time}
+                                        mode="time"
+                                        placeholder="select time"
+                                        format="h:mm a"
+                                        is24Hour={false}
+                                        minuteInterval={10}
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        customStyles={{
+                                        dateIcon: {
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: 4,
+                                            marginLeft: 0
+                                        },
+                                        dateInput: {
+                                            marginLeft: 36
+                                        }
+                                        // ... You can check the source to find the other keys.
+                                        }}
+                                        onDateChange={(time) => {
+                                            this.setState({time: time});
+                                        }}
+                                    />
+                                </Right>
+                            </CardItem>
+                        </Card>
                     </Form>
                 </Content>
             </Container>

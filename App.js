@@ -154,7 +154,7 @@ const RootDrawer = createDrawerNavigator(
     TodoNavigator: {
       screen: TodoNavigator,
       navigationOptions: {
-        drawerLabel: "Daily Learning List",
+        drawerLabel: "Schedule",
         drawerIcon: ({tintColor}) => (
           <Icon
             name="assignment"

@@ -58,7 +58,7 @@ export default StyleSheet.create({
     },
     goalTextBox: {
       marginLeft: 10,
-      marginBottom: 20,
+      marginTop: 20,
     },
     goalText: {
       fontSize: 24,
@@ -72,6 +72,7 @@ export default StyleSheet.create({
       marginBottom: 20,
     },
     goalButton: {
+      marginTop: 10,
       marginLeft: 10,
       backgroundColor: "#3FB0B9",
       /* height: 40,
@@ -138,6 +139,8 @@ export default StyleSheet.create({
     emptyDate: {
       height: 15,
       flex:1,
+      width: '100%',
+      alignItems: "center",
       paddingTop: 30
     },
     item: {

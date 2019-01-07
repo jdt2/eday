@@ -10,7 +10,7 @@ export default class TodoPage extends React.Component {
 
         return {
             headerTitle: 'Daily Action Details',
-            headerLeft: null,
+            /*headerLeft: null,*/
             headerRight: (
                 <TouchableOpacity
                     style={styles.headerRight}
