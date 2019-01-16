@@ -107,7 +107,7 @@ export default class Goals extends React.Component {
 
   }
 
-  submitActionSteps() {
+  submitActionSteps = async () => {
     AsyncStorage.setItem('actionSteps', JSON.stringify(this.state.actionSteps));
     this.finalizeActions();
   }
@@ -231,6 +231,7 @@ export default class Goals extends React.Component {
               placeholderTextColor = "#88B8C3"*/
               value={this.state.goals[i]}
               onChangeText = {(text) => this.handleGoal(text, i)}
+              onSubmitEditing = {this.goalSubmit}
             />
           </Item>
         );
@@ -277,6 +278,7 @@ export default class Goals extends React.Component {
               placeholderTextColor = "#90CCF4"*/
               value={this.state.actionSteps[i]}
               onChangeText = {(text) => this.actionStep(text, i)}
+              onSubmitEditing = {() => {this.submitActionSteps()}}
             />
           </Item>
         );

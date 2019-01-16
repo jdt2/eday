@@ -15,6 +15,7 @@ import GlobalFont from 'react-native-global-font';
 import TodoPage from './components/Todo/TodoPage';
 import AddAgenda from './components/Todo/AddAgenda';
 import Mindset from './components/Mindset/Mindset';
+import About from './components/About/About';
 
 const unavigationOptions = ({navigation}) => {
   return {
@@ -106,6 +107,15 @@ const MindsetNavigator = createStackNavigator(
   {
     Mindset: {
       screen: Mindset,
+      navigationOptions: unavigationOptions,
+    }
+  }
+)
+
+const AboutNavigator = createStackNavigator(
+  {
+    About: {
+      screen: About,
       navigationOptions: unavigationOptions,
     }
   }
@@ -209,7 +219,20 @@ const RootDrawer = createDrawerNavigator(
         drawerLabel: "Daily Summary",
         drawerIcon: ({tintColor}) => (
           <Icon
-            name="account-box"
+            name="account-circle"
+            type="MaterialIcons"
+            style={{fontSize: 24, color: tintColor}}
+          />
+        ),
+      }
+    },
+    About: {
+      screen: AboutNavigator,
+      navigationOptions: {
+        drawerLabel: "About",
+        drawerIcon: ({tintColor}) => (
+          <Icon
+            name="info-outline"
             type="MaterialIcons"
             style={{fontSize: 24, color: tintColor}}
           />

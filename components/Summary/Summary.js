@@ -1,5 +1,5 @@
 import React from 'React';
-import { ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground } from 'react-native';
+import { ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground, AlertIOS } from 'react-native';
 import styles from '../../Styles';
 import { Input, Container, Title, Content, Icon, Button, Card, Text, CardItem, Body, Left, Right, IconNB, Footer, Item, Label, ScrollableTab, Tabs, Tab } from "native-base";
 import moment from 'moment';
@@ -16,6 +16,7 @@ export default class Summary extends React.Component {
         super(props);
 
         this.state = {
+            saved: false,
             goals: [],
             goalActivated: [],
             actionSteps: [],
@@ -27,23 +28,52 @@ export default class Summary extends React.Component {
             mindset: [],
         }
 
+        this.getSaved();
+
     }
 
     componentDidMount() {
-        this.getGoals();
-        this.getActionSteps();
-        this.getLearning();
-        this.getThoughts();
-        this.getAgenda();
-        this.getActions();
-        this.getMindset();
+        this.getSaved();
+    }
+
+    getSaved = async() => {
+        try {
+            await AsyncStorage.getItem("summary").then((value) => {
+                let parsed = JSON.parse(value);
+                /* console.log("Parsed:");
+                console.log(parsed); */
+                if(parsed != null) {
+                    this.setState(parsed, () => {
+                        if(!this.state.saved) {
+                            this.getGoals();
+                            this.getActionSteps();
+                            this.getLearning();
+                            this.getThoughts();
+                            this.getAgenda();
+                            this.getActions();
+                            this.getMindset();
+                        }
+                    });
+                } else {
+                    this.getGoals();
+                    this.getActionSteps();
+                    this.getLearning();
+                    this.getThoughts();
+                    this.getAgenda();
+                    this.getActions();
+                    this.getMindset();
+
+                }
+            }).done();
+        } catch(error) {
+            alert(error);
+        }
     }
 
     getGoals = async () => {
         try {
             await AsyncStorage.getItem("goals").then((value) => {
                 let parsed = JSON.parse(value);
-                console.log(parsed);
                 if(parsed != null) {
                     this.setState({goals: parsed});
                 } else {
@@ -161,6 +191,14 @@ export default class Summary extends React.Component {
         } catch(error) {
             alert(error);
         }
+    }
+
+    save() {
+        let temp = this.state;
+        temp.saved = true;
+        /* console.log(temp); */
+        AsyncStorage.setItem('summary', JSON.stringify(temp));
+        AlertIOS.alert("Saving Daily Summary", "Saved!");
     }
 
     render() {
@@ -424,12 +462,29 @@ export default class Summary extends React.Component {
         return (
             <Container>
                 <Button
+                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
                     onPress={() => {
-                        AsyncStorage.clear();
+                        this.save();
                     }}
                 >
-                    <Text>Clear All (DEBUG BUTTON ONLY)</Text>
+                    <Text>Save Summary</Text>
                 </Button>
+                <Button
+                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
+                    onPress={() => {
+                        AsyncStorage.removeItem("summary");
+                    }}
+                >
+                    <Text>Remove Saved Summary</Text>
+                </Button>
+                {/* <Button
+                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
+                    onPress={() => {
+                        console.log(this.state);
+                    }}
+                >
+                    <Text>Get State</Text>
+                </Button> */}
                 <Tabs locked
                     initialPage={0}
                     tabBarUnderlineStyle={{backgroundColor: "#3FB0B9"}}
