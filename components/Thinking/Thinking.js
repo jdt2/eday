@@ -8,12 +8,6 @@ export default class Thinking extends React.Component {
     static navigationOptions = ({navigation}) => {
         return {
             drawerLabel: 'Thinking',
-            drawerIcon: ({ tintColor }) => {
-            <Image
-                source={require('../../assets/icon.png')}
-                style={[styles.icon, {tintColor: tintColor}]}
-            />
-            },
             headerTitle: 'Thinking',
         };
     };

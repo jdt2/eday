@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "eday",
-    "description": "An entrepreneur's day",
+    "name": "Eday",
+    "description": "An Entrepreneur's day",
     "slug": "eday",
     "privacy": "public",
     "sdkVersion": "31.0.0",
@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.castrinadu.eday"
+    },
+    "android": {
+      "package": "com.castrinadu.eday"
     }
   }
 }
