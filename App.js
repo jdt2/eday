@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, ScrollView, Image } from 'react-native';
+import { View, SafeAreaView, ScrollView, Image, AsyncStorage } from 'react-native';
 import styles from './Styles';
 import { createDrawerNavigator, createStackNavigator, DrawerItems } from 'react-navigation';
 import Goals from './components/Goals/Goals';
@@ -16,6 +16,8 @@ import TodoPage from './components/Todo/TodoPage';
 import AddAgenda from './components/Todo/AddAgenda';
 import Mindset from './components/Mindset/Mindset';
 import About from './components/About/About';
+import Tutorial from './components/Tutorial/Tutorial';
+import {AdMobBanner} from 'expo';
 
 const unavigationOptions = ({navigation}) => {
   return {
@@ -46,6 +48,17 @@ const LearningNavigator = createStackNavigator(
     AddNote: {
       screen: AddLearning,
       navigationOptions: stackNavigationOptions,
+    }
+  }
+);
+
+const TutorialNavigator = createStackNavigator(
+  {
+    Tutorial: {
+      screen: Tutorial,
+      navigationOptions: {
+        header: null,
+      }
     }
   }
 );
@@ -134,6 +147,13 @@ const CustomDrawerComponent = (props) => (
 
 const RootDrawer = createDrawerNavigator(
   {
+    Tutorial: {
+      screen: TutorialNavigator,
+      navigationOptions: {
+        drawerLabel: () => null,
+        drawerIcon: null,
+      }
+    },
     Home: {
       screen: HomeNavigator,
       navigationOptions: {
@@ -241,9 +261,11 @@ const RootDrawer = createDrawerNavigator(
     }
   }, {
     contentComponent: CustomDrawerComponent,
+    edgeWidth: 500,
+    minSwipeDistance: 100,
     contentOptions: {
       activeTintColor: '#3FB0B9',
-    }
+    },
   }
 );
 
@@ -256,8 +278,16 @@ export default class App extends React.Component {
   render() {
 
     return (
-      <RootDrawer />
-      /* <TodoNavigator /> */
+      <View style={{flex: 1}}>
+        <RootDrawer />
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-7973916379677731/6156957851"
+          testDeviceID="EMULATOR"
+          onAdFailedToLoad={error => console.error(error)}
+        />
+      </View>
+      // <Tutorial />
     );
   }
 }

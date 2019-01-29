@@ -67,7 +67,7 @@ export default class Learning extends React.Component {
                     </CardItem>
                     <CardItem>
                         <Body>
-                            <Text numberOfLines={1}>
+                            <Text>
                                 {this.state.notes[i].text}
                             </Text>
                         </Body>

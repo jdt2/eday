@@ -176,5 +176,22 @@ export default StyleSheet.create({
       color: "red",
       fontSize: 18,
     },
-
+    // Tutorial.js
+    titleText: {
+      color: "white",
+      fontSize: 36,
+      textAlign: 'center',
+      width: '90%',
+    },
+    subTitleText: {
+      marginTop: 10,
+      color: "white",
+      fontSize: 24,
+      textAlign: 'center',
+      width: '90%',
+    },
+    // About.js
+    aboutText: {
+      fontSize: 28,
+    }
 })

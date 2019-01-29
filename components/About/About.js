@@ -1,6 +1,6 @@
 import React from 'react';
-import { Linking, Animated, Platform, StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
-import { Container, Content, Card, CardItem, Body } from 'native-base';
+import { AsyncStorage, Linking, Animated, Platform, StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import { Container, Content, Card, CardItem, Body, Button } from 'native-base';
 import styles from '../../Styles';
 import LottieView from 'lottie-react-native';
 
@@ -34,36 +34,45 @@ export default class About extends React.Component {
         <Content>
           <Card transparent>
             <CardItem header>
-              <Text>Created by:</Text>
+              <Text style={styles.aboutText}>Created by:</Text>
             </CardItem>
             <CardItem>
               <Body>
-                <Text>Jesse Du</Text>
-                <Text>Sean Castrina</Text>
-                <Text>Collin Castrina</Text>
+                <Text style={styles.aboutText}>Jesse Du</Text>
+                <Text style={styles.aboutText}>Sean Castrina</Text>
+                <Text style={styles.aboutText}>Collin Castrina</Text>
               </Body>
             </CardItem>
           </Card>
           <Card transparent>
             <CardItem header>
-              <Text>Developed by:</Text>
+              <Text style={styles.aboutText}>Developed by:</Text>
             </CardItem>
             <CardItem>
               <Body>
-                <Text>Champion Publishing</Text>
+                <Text style={styles.aboutText}>Champion Publishing</Text>
               </Body>
             </CardItem>
           </Card>
           <Card transparent>
             <CardItem header>
-              <Text>Find our podcast and learn more:</Text>
+              <Text style={styles.aboutText}>Find our podcast and learn more:</Text>
             </CardItem>
             <CardItem>
               <Body>
-                <Text style={{color: 'blue'}} onPress={() => Linking.openURL('https://seancastrina.com')}>seancastrina.com</Text>
+                <Text style={[styles.aboutText, {color: 'blue'}]} onPress={() => Linking.openURL('https://seancastrina.com')}>seancastrina.com</Text>
               </Body>
             </CardItem>
           </Card>
+          <Button
+              style={{alignSelf: 'center', padding: 10,}}
+              onPress={() => {
+                  AsyncStorage.removeItem("tutorial");
+                  this.props.navigation.navigate("Tutorial");
+              }}
+          >
+              <Text style={[styles.aboutText, {color: 'white'}]}>Revisit Tutorial</Text>
+          </Button>
         </Content>
       </Container>
     );

@@ -485,6 +485,14 @@ export default class Summary extends React.Component {
                 >
                     <Text>Get State</Text>
                 </Button> */}
+                <Button
+                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
+                    onPress={() => {
+                        AsyncStorage.clear();
+                    }}
+                >
+                    <Text>DEBUG ONLY</Text>
+                </Button>
                 <Tabs locked
                     initialPage={0}
                     tabBarUnderlineStyle={{backgroundColor: "#3FB0B9"}}

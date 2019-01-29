@@ -82,42 +82,53 @@ export default class Mindset extends React.Component {
         for(let i = 0; i < this.state.mindset.length+1; i++) {
             if(this.state.mindsetFinalized == null || this.state.mindsetFinalized[i] == false || this.state.mindsetFinalized[i] == undefined) {
               // set a textbox if there isn't a goal here
-              mindsetFields.push(
-                <Item inlineLabel style={[styles.goalTextBox]}>
-                    <Label>I am...</Label>
-                    <Input
-                        /*placeholder = {"Goal " + (i+1).toString()}
-                        placeholderTextColor = "#88B8C3"*/
-                        value={this.state.mindset[i]}
-                        onChangeText = {(text) => this.handleMindset(text, i)}
-                        onSubmitEditing = {() => this.submitMindset()}
-                    />
-                </Item>
-              );
-            } else {
+              if(i == 0) {
                 mindsetFields.push(
-                    <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
-                        <Text style={[styles.goalText, {marginLeft: 10, color: "black",}]}>
-                            I am {this.state.mindset[i]}
-                        </Text>
-                        {/* <Button
-                            transparent
-                            small
-                            style={{marginLeft: 'auto'}}
-                            onPress={() => {this.editGoal(i)}}
-                        >
-                            {this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? <Icon name='md-create' style={{color: "#3FB0B9", fontSize: 20}} /> : null}
-                        </Button>
-                        <Button
-                            transparent
-                            small
-                            style={{marginLeft: 0}}
-                            onPress={() => {this.removeGoal(i)}}
-                        >
-                            <Icon name='md-close' style={{color: "#AA0000", fontSize: 20}} />
-                        </Button> */}
-                    </View>
+                    <Item inlineLabel style={[styles.goalTextBox]}>
+                        <Label>I am...</Label>
+                        <Input
+                            /*placeholder = {"Goal " + (i+1).toString()}
+                            placeholderTextColor = "#88B8C3"*/
+                            value={this.state.mindset != null ? this.state.mindset[i] : null}
+                            onChangeText = {(text) => this.handleMindset(text, i)}
+                            onSubmitEditing = {() => this.submitMindset()}
+                        />
+                    </Item>
                 );
+              } else {
+                mindsetFields.push(
+                    <Item floatingLabel style={[styles.goalTextBox]}>
+                        <Label>Enter Mindset Here...</Label>
+                        <Input
+                            /*placeholder = {"Goal " + (i+1).toString()}
+                            placeholderTextColor = "#88B8C3"*/
+                            value={this.state.mindset != null ? this.state.mindset[i]: null}
+                            onChangeText = {(text) => this.handleMindset(text, i)}
+                            onSubmitEditing = {() => this.submitMindset()}
+                        />
+                    </Item>
+                );
+              }
+            } else {
+                if(i == 0) {
+                    mindsetFields.push(
+                        <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
+                            <Text style={[styles.goalText, {marginLeft: 10, color: "black",}]}>
+                                I am {this.state.mindset[i]}
+                            </Text>
+                            
+                        </View>
+                    );
+                } else {
+                    mindsetFields.push(
+                        <View key={i} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
+                            <Text style={[styles.goalText, {marginLeft: 10, color: "black",}]}>
+                                {this.state.mindset[i]}
+                            </Text>
+                            
+                        </View>
+                    );
+                }
             }
         }
 
