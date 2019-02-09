@@ -126,7 +126,7 @@ export default class Summary extends React.Component {
 
     getThoughts = async () => {
         try {
-            await AsyncStorage.getItem("thoughts").then((value) => {
+            await AsyncStorage.getItem("thinking").then((value) => {
                 let parsed = JSON.parse(value);
                 if(parsed != null) {
                     this.setState({thoughts: parsed});
@@ -327,11 +327,25 @@ export default class Summary extends React.Component {
         for (let i = 0; i < this.state.thoughts.length; i++) {
             if(this.state.thoughts[i]) {
                 thoughtList.push(
-                    <View style={styles.thought}>
+                    
+                    <Card /*style={[styles.item]}*/>
+                        <CardItem header>
+                            <Text>
+                                {this.state.thoughts[i].title}
+                            </Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>{this.state.thoughts[i].text}</Text>
+                            </Body>
+                        </CardItem>
+                        {/* <View style={styles.thought}>
                         <ImageBackground source={require('../../assets/bubble.png')} style={{width: 310, height: 170}}>
                             <Text style={styles.thoughtText} numberOfLines={1}>{this.state.thoughts[i]}</Text>
                         </ImageBackground>
-                    </View>
+                    </View> */}
+                    </Card>
+                    
                 );
             }
         }

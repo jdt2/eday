@@ -6,11 +6,13 @@ import Goals from './components/Goals/Goals';
 import Home from './components/Home/Home';
 import Learning from './components/Learning/Learning';
 import Thinking from './components/Thinking/Thinking';
+import AddThinking from './components/Thinking/AddThinking';
 import AddLearning from './components/Learning/AddLearning';
 import Hamburger from './components/util/Hamburger';
 import { Icon } from 'native-base';
 import Summary from './components/Summary/Summary';
-import DailyAction from './components/Todo/DailyAction';
+import DailyAgenda from './components/DailyAgenda/DailyAgenda';
+import DailyAction from './components/DailyActions/DailyAction';
 import GlobalFont from 'react-native-global-font';
 import TodoPage from './components/Todo/TodoPage';
 import AddAgenda from './components/Todo/AddAgenda';
@@ -81,7 +83,20 @@ const GoalsNavigator = createStackNavigator(
   }
 );
 
-const TodoNavigator = createStackNavigator(
+const ScheduleNavigator = createStackNavigator(
+  {
+    DailyAgenda: {
+      screen: DailyAgenda,
+      navigationOptions: unavigationOptions,
+    },
+    AddAgenda: {
+      screen: AddAgenda,
+      navigationOptions: stackNavigationOptions,
+    }
+  }
+);
+
+const DailyActionNavigator = createStackNavigator(
   {
     DailyAction: {
       screen: DailyAction,
@@ -91,10 +106,6 @@ const TodoNavigator = createStackNavigator(
       screen: TodoPage,
       navigationOptions: stackNavigationOptions,
     },
-    AddAgenda: {
-      screen: AddAgenda,
-      navigationOptions: stackNavigationOptions,
-    }
   }
 );
 
@@ -103,6 +114,10 @@ const ThinkingNavigator = createStackNavigator(
     Thinking: {
       screen: Thinking,
       navigationOptions: unavigationOptions,
+    },
+    AddNote: {
+      screen: AddThinking,
+      navigationOptions: stackNavigationOptions,
     }
   }
 );
@@ -181,10 +196,23 @@ const RootDrawer = createDrawerNavigator(
         ),
       }
     },
-    TodoNavigator: {
-      screen: TodoNavigator,
+    ScheduleNavigator: {
+      screen: ScheduleNavigator,
       navigationOptions: {
         drawerLabel: "Schedule",
+        drawerIcon: ({tintColor}) => (
+          <Icon
+            name="calendar-week"
+            type="MaterialCommunityIcons"
+            style={{fontSize: 24, color: tintColor}}
+          />
+        ),
+      }
+    },
+    DailyActionNavigator: {
+      screen: DailyActionNavigator,
+      navigationOptions: {
+        drawerLabel: "Daily Actions",
         drawerIcon: ({tintColor}) => (
           <Icon
             name="assignment"
@@ -278,15 +306,7 @@ export default class App extends React.Component {
   render() {
 
     return (
-      <View style={{flex: 1}}>
-        <RootDrawer />
-        <AdMobBanner
-          bannerSize="fullBanner"
-          adUnitID="ca-app-pub-7973916379677731/6156957851"
-          testDeviceID="EMULATOR"
-          onAdFailedToLoad={error => console.error(error)}
-        />
-      </View>
+      <RootDrawer />
       // <Tutorial />
     );
   }

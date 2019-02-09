@@ -4,6 +4,7 @@ import styles from '../../Styles';
 import { Input, Container, Title, Content, Icon, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label } from "native-base";
 import CheckBox from './../util/CheckBox';
 import LottieView from 'lottie-react-native';
+import {AdMobBanner} from 'expo';
                               
 export default class Goals extends React.Component {
 	static navigationOptions = ({navigation}) => {
@@ -378,6 +379,14 @@ export default class Goals extends React.Component {
             </Button>
           </View>
         </Content>
+        {/* Ads */}
+        <AdMobBanner
+          style={{position: 'absolute', bottom: 0,backgroundColor: "black"}}
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-7973916379677731/6156957851"
+          testDeviceID="EMULATOR"
+          onAdFailedToLoad={error => console.error(error)}
+        />
       </Container>
     );
   }

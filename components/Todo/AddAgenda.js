@@ -39,8 +39,8 @@ export default class AddAgenda extends React.Component {
     getDate() {
         const newDateString = this.state.date +" "+ this.state.time;
         const newDate = moment(newDateString, "YYYY-MM-DD hh:mm a").toDate();
-        console.log(newDateString);
-        console.log("Date created: " + newDate);
+        /* console.log(newDateString);
+        console.log("Date created: " + newDate); */
         /* alert(newDateString);
         alert(newDate); */
         return newDate;
@@ -56,6 +56,7 @@ export default class AddAgenda extends React.Component {
             await AsyncStorage.getItem("agenda").then((value) => {
                 let parsed = JSON.parse(value);
                 let dateString = this.state.date;
+                console.log("String: " + this.state.text.length);
                 console.log("Date string: " + dateString);
                 let newArr = {};
 
@@ -68,7 +69,7 @@ export default class AddAgenda extends React.Component {
                     return new Date(b.date) - new Date(a.date);
                 }); */
                 AsyncStorage.setItem("agenda", JSON.stringify(parsed)).then(() => {
-                    this.props.navigation.navigate("DailyAction");
+                    this.props.navigation.navigate("DailyAgenda");
                 });
             });
         } catch (error) {

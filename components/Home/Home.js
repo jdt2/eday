@@ -3,6 +3,7 @@ import { Animated, Platform, StyleSheet, Text, View, Image, TouchableOpacity, St
 import { Container, Content } from 'native-base';
 import styles from '../../Styles';
 import LottieView from 'lottie-react-native';
+import {AdMobBanner} from 'expo';
 
 /* const quotes = [{
   message: 'Stop focusing on dumb shit. Don’t be afraid to break things. Don’t be romantic. Don’t take the time to breathe. Don’t aim for perfect. And whatever you do, keep moving.',
@@ -98,7 +99,8 @@ export default class Home extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <Container>
+        <Content>
           <Animated.View style={[styles.content, {opacity: this.state.fadeAnim}]}>
             <Animated.View style={[styles.whole, {
               transform: [
@@ -124,7 +126,17 @@ export default class Home extends React.Component {
               {currAuthor}
             </Animated.Text>
           </Animated.View>
-      </View>
+
+          {/* Ads */}
+          <AdMobBanner
+            style={{position: 'absolute', bottom: 0}}
+            bannerSize="fullBanner"
+            adUnitID="ca-app-pub-7973916379677731/6156957851"
+            testDeviceID="EMULATOR"
+            onAdFailedToLoad={error => console.error(error)}
+          />
+        </Content>
+      </Container>
     );
   }
 }
