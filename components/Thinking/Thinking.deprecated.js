@@ -75,7 +75,7 @@ export default class Thinking extends React.Component {
         }
 
         return (
-            <ScrollView style={[styles.container, {alignItems: 'center'}]}>
+            <ScrollView containerContainerStyle={[styles.container, {alignItems: 'center'}]}>
                 <Button
                     title="Clear Thoughts"
                     onPress={() => {this.clearThoughts()}}

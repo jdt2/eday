@@ -1,5 +1,5 @@
 import React from 'React';
-import { ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground, AlertIOS } from 'react-native';
+import { Share, ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, Animated, ImageBackground, AlertIOS } from 'react-native';
 import styles from '../../Styles';
 import { Input, Container, Title, Content, Icon, Button, Card, Text, CardItem, Body, Left, Right, IconNB, Footer, Item, Label, ScrollableTab, Tabs, Tab } from "native-base";
 import moment from 'moment';
@@ -7,8 +7,22 @@ import moment from 'moment';
 export default class Summary extends React.Component {
 
     static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state
+
         return {
             headerTitle: 'Daily Summary',
+            headerRight: (
+                <TouchableOpacity
+                    style={styles.headerRight}
+                    onPress={() => params.handleAction()}
+                >
+                <Icon
+                    name="share"
+                    type="MaterialCommunityIcons"
+                    style={{fontSize: 24,color: "white",}}
+                />
+                </TouchableOpacity>
+            ),
         };
     };
 
@@ -34,6 +48,50 @@ export default class Summary extends React.Component {
 
     componentDidMount() {
         this.getSaved();
+
+        this.props.navigation.setParams({handleAction: this.onShare});
+    }
+
+    onShare = async () => {
+        try {
+            let shareString = "";
+            // goals
+            let notFirst = false;
+            if(this.state.goals.length > 0) {
+                shareString += "Your Goals:";
+                for(let i = 0; i < this.state.goals.length; i++) {
+                    if(this.state.goals[i])
+                        shareString += " " + this.state.goals[i] + ",";
+                }
+                notFirst = true;
+            }
+            if(this.state.actionSteps.length > 0) {
+                if(notFirst) {
+                    shareString += "\n";
+                } else notFirst = false;
+                shareString += "Your Action Steps:";
+                for(let i = 0; i < this.state.actionSteps.length; i++) {
+                    if(this.state.actionSteps[i])
+                        shareString += " " + this.state.actionSteps[i] + ",";
+                }
+            }
+            const result = await Share.share({
+                title: 'My Eday Summary',
+                message: shareString,
+            })
+    
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error);
+        }
     }
 
     getSaved = async() => {
@@ -499,14 +557,14 @@ export default class Summary extends React.Component {
                 >
                     <Text>Get State</Text>
                 </Button> */}
-                <Button
+                {/* <Button
                     style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
                     onPress={() => {
                         AsyncStorage.clear();
                     }}
                 >
                     <Text>DEBUG ONLY</Text>
-                </Button>
+                </Button> */}
                 <Tabs locked
                     initialPage={0}
                     tabBarUnderlineStyle={{backgroundColor: "#3FB0B9"}}

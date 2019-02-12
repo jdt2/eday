@@ -43,7 +43,7 @@ export default class DailyAgenda extends React.Component {
                             return new Date(a.date).getTime() - new Date(b.date).getTime();
                         })
                     });
-                    this.setState({"items": parsed});
+                    this.setState({"items": tempArr});
                 } else {
                     this.setState({"items": {}});
                 }
@@ -113,23 +113,38 @@ export default class DailyAgenda extends React.Component {
         console.log(this.state.items);
     }
 
+    editItem(item) {
+        console.log("Editing now");
+        console.log(item);
+        this.props.navigation.navigate("EditAgenda", {item: item});
+    }
+
     renderItem(item) {
-        return (
-            <View style={[styles.item]}>
-                {!item.add ? 
-                <View style={{paddingBottom: 10,}}>
-                    <Text style={{fontSize: 14}}>{moment(item.date).format("h:mm a")}:</Text>
-                    <Text>{item.text}</Text>
-                </View> :
+        if(!item.add) {
+            return (
+                <Card>
+                    <CardItem header bordered button onPress={() => {
+                        this.editItem(item);
+                    }}>
+                        <Text style={{fontSize: 14}}>{moment(item.date).format("h:mm a")}</Text>
+                    </CardItem>
+                    <CardItem>
+                        <Body>
+                            <Text>{item.text}</Text>
+                        </Body>
+                    </CardItem>
+                </Card>
+            );
+        } else {
+            return (
                 <Button
                     transparent
                     onPress={() => {this.props.navigation.navigate("AddAgenda")}}
                 >
                     <Text>Add an item to your agenda</Text>    
                 </Button>
-                }
-            </View>
-        );
+            );
+        }
     }
 
     renderEmptyDate() {

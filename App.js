@@ -12,6 +12,7 @@ import Hamburger from './components/util/Hamburger';
 import { Icon } from 'native-base';
 import Summary from './components/Summary/Summary';
 import DailyAgenda from './components/DailyAgenda/DailyAgenda';
+import EditAgenda from './components/DailyAgenda/EditAgenda';
 import DailyAction from './components/DailyActions/DailyAction';
 import GlobalFont from 'react-native-global-font';
 import TodoPage from './components/Todo/TodoPage';
@@ -20,6 +21,7 @@ import Mindset from './components/Mindset/Mindset';
 import About from './components/About/About';
 import Tutorial from './components/Tutorial/Tutorial';
 import {AdMobBanner} from 'expo';
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 
 const unavigationOptions = ({navigation}) => {
   return {
@@ -92,6 +94,10 @@ const ScheduleNavigator = createStackNavigator(
     AddAgenda: {
       screen: AddAgenda,
       navigationOptions: stackNavigationOptions,
+    },
+    EditAgenda: {
+      screen: EditAgenda,
+      navigationOptions: stackNavigationOptions,
     }
   }
 );
@@ -154,8 +160,8 @@ const CustomDrawerComponent = (props) => (
     <View style={{height: 150,backgroundColor: 'white',alignItems: 'center', marginBottom: 20,}}>
       <Image source={require('./assets/logoIcon.png')} style={{height: 150, width: 150, borderRadius: 75,}} />
     </View>
-    <ScrollView style={{color: 'white'}}>
-      <DrawerItems {...props}/>
+    <ScrollView>
+      <DrawerItems style={{color: 'white'}} {...props}/>
     </ScrollView>
   </SafeAreaView>
 );
@@ -289,8 +295,8 @@ const RootDrawer = createDrawerNavigator(
     }
   }, {
     contentComponent: CustomDrawerComponent,
-    edgeWidth: 500,
-    minSwipeDistance: 100,
+    edgeWidth: 70,
+    minSwipeDistance: 3,
     contentOptions: {
       activeTintColor: '#3FB0B9',
     },
@@ -306,8 +312,9 @@ export default class App extends React.Component {
   render() {
 
     return (
+      /*<View><Text>Something</Text></View>*/
       <RootDrawer />
-      // <Tutorial />
+      /*<Tutorial /> */      
     );
   }
 }

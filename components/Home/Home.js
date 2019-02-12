@@ -100,7 +100,7 @@ export default class Home extends React.Component {
 
     return (
       <Container>
-        <Content>
+        <Content style={styles.content}>
           <Animated.View style={[styles.content, {opacity: this.state.fadeAnim}]}>
             <Animated.View style={[styles.whole, {
               transform: [
