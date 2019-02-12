@@ -84,7 +84,7 @@ export default class Mindset extends React.Component {
               // set a textbox if there isn't a goal here
               if(i == 0) {
                 mindsetFields.push(
-                    <Item inlineLabel style={[styles.goalTextBox]}>
+                    <Item key={i} inlineLabel style={[styles.goalTextBox]}>
                         <Label>I am...</Label>
                         <Input
                             /*placeholder = {"Goal " + (i+1).toString()}
@@ -97,7 +97,7 @@ export default class Mindset extends React.Component {
                 );
               } else {
                 mindsetFields.push(
-                    <Item floatingLabel style={[styles.goalTextBox]}>
+                    <Item key={i} floatingLabel style={[styles.goalTextBox]}>
                         <Label>Enter Mindset Here...</Label>
                         <Input
                             /*placeholder = {"Goal " + (i+1).toString()}

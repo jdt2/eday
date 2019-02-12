@@ -225,7 +225,7 @@ export default class Goals extends React.Component {
       if(this.state.goalFinalized == null || this.state.goalFinalized[i] == false || this.state.goalFinalized[i] == undefined) {
         // set a textbox if there isn't a goal here
         goalFields.push(
-          <Item floatingLabel style={styles.goalTextBox}>
+          <Item key={i} floatingLabel style={styles.goalTextBox}>
             <Label>{"Goal " + (i+1).toString()}</Label>
             <Input
               /*placeholder = {"Goal " + (i+1).toString()}
@@ -272,7 +272,7 @@ export default class Goals extends React.Component {
     for(let i = 0; i < 3; i++) {
       if(this.state.actionFinalized == null || this.state.actionFinalized[i] == false || this.state.actionFinalized[i] == undefined) {
         aStep.push(
-          <Item floatingLabel style={styles.goalTextBox}>
+          <Item key={i} floatingLabel style={styles.goalTextBox}>
             <Label>{"Action Step " + (i+1).toString()}</Label>
             <Input
               /*placeholder = "Action Step"

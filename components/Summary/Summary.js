@@ -268,8 +268,8 @@ export default class Summary extends React.Component {
             if(this.state.goals[i]) {
                 if(!this.state.goalActivated[i]) {
                     goalNotCompletedList.push(
-                        <CardItem>
-                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <CardItem key={i}>
+                            <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                                 <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
                                 {i+1}. {this.state.goals[i]}
                                 </Text>
@@ -278,8 +278,8 @@ export default class Summary extends React.Component {
                     );
                 } else {
                     goalCompleted.push(
-                        <CardItem>
-                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <CardItem key={i}>
+                            <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                                 <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
                                 {i+1}. {this.state.goals[i]}
                                 </Text>
@@ -295,8 +295,8 @@ export default class Summary extends React.Component {
         for (let i = 0; i < this.state.actionSteps.length; i++) {
             if(this.state.actionSteps[i]) {
                 actionStepList.push(
-                    <CardItem>
-                        <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                    <CardItem key={i}>
+                        <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                             <Text style={styles.goalText}>
                             {i+1}. {this.state.actionSteps[i]}
                             </Text>
@@ -313,7 +313,7 @@ export default class Summary extends React.Component {
             for(let i = 0; i < item.length; i++) {
                 if(item[i] && !item[i].add) {
                     agendaList.push(
-                        <Card /*style={[styles.item]}*/>
+                        <Card key={i} /*style={[styles.item]}*/>
                             <CardItem header>
                                 <Text>
                                     {moment(item[i].date).format("YYYY-MM-DD h:mm a")}:
@@ -336,8 +336,8 @@ export default class Summary extends React.Component {
             if(this.state.actions[i]) {
                 if(!this.state.actionsActivated[i]) {
                     actionNotCompletedList.push(
-                        <CardItem>
-                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <CardItem key={i}>
+                            <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                                 <Text style={[styles.todoTextBox]}>
                                     {this.state.actions[i]}
                                 </Text>
@@ -346,8 +346,8 @@ export default class Summary extends React.Component {
                     );
                 } else {
                     actionCompleted.push(
-                        <CardItem>
-                            <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <CardItem key={i}>
+                            <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                                 <Text style={[styles.todoTextBox, {color: "green"}]}>
                                     {this.state.actions[i]}
                                 </Text>
@@ -364,7 +364,7 @@ export default class Summary extends React.Component {
             if(this.state.learning[i]) {
                 console.log(this.state.learning[i]);
                 learningList.push(
-                    <Card /*style={[styles.item]}*/>
+                    <Card key={i} /*style={[styles.item]}*/>
                         <CardItem header>
                             <Text>
                                 {this.state.learning[i].title}
@@ -386,7 +386,7 @@ export default class Summary extends React.Component {
             if(this.state.thoughts[i]) {
                 thoughtList.push(
                     
-                    <Card /*style={[styles.item]}*/>
+                    <Card key={i} /*style={[styles.item]}*/>
                         <CardItem header>
                             <Text>
                                 {this.state.thoughts[i].title}
@@ -425,9 +425,9 @@ export default class Summary extends React.Component {
         // add placeholder if it's empty
         if(goalNotCompletedList.length == 0) {
             goalNotCompletedList = [(
-                <CardItem>
-                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
-                        <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                <CardItem key={0}>
+                    <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.goalText, {marginLeft: 10, color: "black"}]}>
                             No Goals Not Completed!
                         </Text>
                     </Body>
@@ -437,9 +437,9 @@ export default class Summary extends React.Component {
         
         if(goalCompleted.length == 0) {
             goalCompleted = [(
-                <CardItem>
-                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
-                        <Text style={[styles.goalText, {marginLeft: 10, color: this.state.goalActivated[i] == null || !this.state.goalActivated[i] ? "black" : "green"}]}>
+                <CardItem key={0}>
+                    <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                        <Text style={[styles.goalText, {marginLeft: 10, color: "black"}]}>
                             No Goals Completed!
                         </Text>
                     </Body>
@@ -450,7 +450,7 @@ export default class Summary extends React.Component {
         // Agenda
         if(agendaList.length == 0) {
             agendaList = [(
-                <Card /*style={[styles.item]}*/>
+                <Card key={0} /*style={[styles.item]}*/>
                     <CardItem header>
                         <Text>
                             Nothing in the Daily Agenda!
@@ -463,8 +463,8 @@ export default class Summary extends React.Component {
         // Daily Actions
         if(actionCompleted.length == 0) {
             actionCompleted = [(
-                <CardItem>
-                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                <CardItem key={0}>
+                    <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                         <Text style={[styles.todoTextBox]}>
                             No Completed Actions!
                         </Text>
@@ -475,8 +475,8 @@ export default class Summary extends React.Component {
 
         if(actionNotCompletedList.length == 0) {
             actionNotCompletedList = [(
-                <CardItem>
-                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                <CardItem key={0}>
+                    <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                         <Text style={[styles.todoTextBox]}>
                             No Actions Not Completed!
                         </Text>
@@ -488,8 +488,8 @@ export default class Summary extends React.Component {
         // Action Steps
         if(actionStepList.length == 0) {
             actionStepList = [(
-                <CardItem>
-                    <Body key={i} /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
+                <CardItem key={0}>
+                    <Body /*style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}*/>
                         <Text style={styles.goalText}>
                             No Action Steps!
                         </Text>
@@ -501,7 +501,7 @@ export default class Summary extends React.Component {
         // Learning
         if(learningList.length == 0) {
             learningList = [(
-                <Card /*style={[styles.item]}*/>
+                <Card key={0} /*style={[styles.item]}*/>
                     <CardItem header>
                         <Text>
                             Nothing in Learning!
@@ -514,7 +514,7 @@ export default class Summary extends React.Component {
         // Thinking
         if(thoughtList.length == 0) {
             thoughtList = [(
-                <View style={styles.thought}>
+                <View key={0} style={styles.thought}>
                     <Text style={styles.thoughtText} numberOfLines={1}>Nothing in Thinking!</Text>
                 </View>
             )];
@@ -523,7 +523,7 @@ export default class Summary extends React.Component {
         // Mindset
         if(mindsetList.length == 0) {
             mindsetList = [(
-                <View style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
+                <View key={0} style={[styles.goalTextBox, {flex: 1,flexWrap: 'wrap', flexDirection: 'row'}]}>
                     <Text style={styles.goalText}>
                         Nothing in Mindset!
                     </Text>

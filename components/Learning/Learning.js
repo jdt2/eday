@@ -78,7 +78,7 @@ export default class Learning extends React.Component {
 
         return (
             <Container>
-                <Content style={{paddingTop: 10,}}>
+                <Content contentContainerStyle={{paddingTop: 10,}}>
                     <Button 
                         onPress={() => {
                             this.clearNotes();
