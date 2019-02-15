@@ -23,7 +23,7 @@ export default class Summary extends React.Component {
                 />
                 </TouchableOpacity>
             ),
-        };
+        }; 
     };
 
     constructor(props) {
@@ -362,7 +362,7 @@ export default class Summary extends React.Component {
         learningList = [];
         for (let i = 0; i < this.state.learning.length; i++) {
             if(this.state.learning[i]) {
-                console.log(this.state.learning[i]);
+                /* console.log(this.state.learning[i]); */
                 learningList.push(
                     <Card key={i} /*style={[styles.item]}*/>
                         <CardItem header>

@@ -21,7 +21,6 @@ import Mindset from './components/Mindset/Mindset';
 import About from './components/About/About';
 import Tutorial from './components/Tutorial/Tutorial';
 import {AdMobBanner} from 'expo';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 
 const unavigationOptions = ({navigation}) => {
   return {

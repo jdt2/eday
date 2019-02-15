@@ -6,6 +6,7 @@ import styles from '../../Styles';
 import { Agenda } from 'react-native-calendars';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
+import Swipeable from 'react-native-swipeable';
 
 export default class DailyAgenda extends React.Component {
 
@@ -110,30 +111,34 @@ export default class DailyAgenda extends React.Component {
     }
 
     loadItems(day) {
-        console.log(this.state.items);
+        /* console.log(this.state.items); */
     }
 
     editItem(item) {
-        console.log("Editing now");
-        console.log(item);
+        /* console.log("Editing now");
+        console.log(item); */
         this.props.navigation.navigate("EditAgenda", {item: item});
     }
 
     renderItem(item) {
         if(!item.add) {
             return (
-                <Card>
-                    <CardItem header bordered button onPress={() => {
-                        this.editItem(item);
-                    }}>
-                        <Text style={{fontSize: 14}}>{moment(item.date).format("h:mm a")}</Text>
-                    </CardItem>
-                    <CardItem>
-                        <Body>
-                            <Text>{item.text}</Text>
-                        </Body>
-                    </CardItem>
-                </Card>
+                <Swipeable rightContent={
+                    <Text>Something</Text>
+                }>
+                    <Card>
+                        <CardItem header bordered button onPress={() => {
+                            this.editItem(item);
+                        }}>
+                            <Text style={{fontSize: 14}}>{moment(item.date).format("h:mm a")}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>{item.text}</Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </Swipeable>
             );
         } else {
             return (
