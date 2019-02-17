@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Image, StyleSheet, View, TouchableOpacity, Dimensions, ScrollView, Animated, AlertIOS, FlatList, Platform, Keyboard } from 'react-native';
+import { AsyncStorage, Image, StyleSheet, View, TouchableOpacity, TouchableHighlight, Dimensions, ScrollView, Animated, AlertIOS, FlatList, Platform, Keyboard } from 'react-native';
 import { Input, Container, Header, Title, Content, Button, Card, CardItem, Text, Body, Left, Right, Icon, Footer, Tabs, Tab, List, ListItem, CheckBox } from "native-base";
 import styles from '../../Styles';
 /* import CheckBox from './../util/CheckBox'; */
@@ -7,6 +7,7 @@ import { Agenda } from 'react-native-calendars';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
 import Swipeable from 'react-native-swipeable';
+import {Notifications} from 'expo';
 
 export default class DailyAgenda extends React.Component {
 
@@ -25,11 +26,19 @@ export default class DailyAgenda extends React.Component {
             data: [],
             todoActivated: [],
             items: {},
+            token: "",
+            swipeables: {},
         }
     }
 
     componentDidMount() {
         this.loadData();
+
+        this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    }
+
+    _handleNotification = (notification) => {
+        this.props.navigation.navigate("DailyAgenda");
     }
 
     loadData = async () => {
@@ -75,6 +84,7 @@ export default class DailyAgenda extends React.Component {
                 loadItemsForMonth={this.loadItems.bind(this)}
                 selected={moment().format("YYYY-MM-DD")}
                 renderItem={this.renderItem.bind(this)}
+                renderEmptyDate={this.renderEmptyDate.bind(this)}
                 renderEmptyData={this.renderEmptyDate.bind(this)}
                 rowHasChanged={this.rowHasChanged.bind(this)}
                 onRefresh={() => {
@@ -120,12 +130,62 @@ export default class DailyAgenda extends React.Component {
         this.props.navigation.navigate("EditAgenda", {item: item});
     }
 
+    deleteItem(item) {
+
+        // first swipe back
+        if(this.$swipe) {
+            console.log("here");
+            this.$swipe.recenter();
+        }
+
+        let index = 0;
+        let date = moment(item.date).format("YYYY-MM-DD");
+        let parsed = this.state.items;
+        for(let i = 0; i < parsed[date].length; i++) {
+            if(parsed[date][i].date == item.date && parsed[date][i].text == item.text) {
+                index = i;
+                break;
+            }
+        }
+
+        parsed[date].splice(index, 1);
+        this.setState({items: parsed});
+        AsyncStorage.setItem("agenda", JSON.stringify(parsed));
+    }
+
+    setSwipeRef(ref, item) {
+        let temp = this.state.swipeables;
+        temp[item] = ref;
+        this.setState({swipeables: temp});
+    }
+
     renderItem(item) {
         if(!item.add) {
             return (
-                <Swipeable rightContent={
-                    <Text>Something</Text>
-                }>
+                <Swipeable onRef={ref=> {
+                    this.setSwipeRef(ref, item);
+                }} rightButtons={[
+                    <TouchableOpacity onPress={() => {
+                        this.state.swipeables[item].recenter();
+                        this.editItem(item);
+                    }} style={styles.swipeRightButton}>
+                        <Icon
+                            name="edit"
+                            type="MaterialIcons"
+                            style={{fontSize: 24, color: "blue"}}
+                        />
+                    </TouchableOpacity>,
+                    <TouchableOpacity onPress={() => {
+                        this.state.swipeables[item].recenter();
+                        this.deleteItem(item)
+                    }} style={styles.swipeRightButton}>
+                        <Icon
+                            name="close"
+                            type="MaterialIcons"
+                            style={{fontSize: 24, color: "red"}}
+                        />
+                    </TouchableOpacity>
+                ]}>
                     <Card>
                         <CardItem header bordered button onPress={() => {
                             this.editItem(item);

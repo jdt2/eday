@@ -4,6 +4,7 @@ import { DatePickerIOS, AsyncStorage, Image, StyleSheet, View, TouchableOpacity,
 import { Item, Label, Form, Input, Container, Header, Title, Content, Button, Card, CardItem, Text, Body, Left, Right, Icon, Footer, Tabs, Tab, List, ListItem, CheckBox, Textarea } from "native-base";
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
+import {Notifications} from 'expo';
 
 export default class AddAgenda extends React.Component {
     
@@ -32,8 +33,22 @@ export default class AddAgenda extends React.Component {
             text: "",
             date: moment().format("YYYY-MM-DD"),
             time: moment().format("h:mm a"),
+            token: '',
         }
 
+    }
+
+    componentDidMount() {
+        this.loadNotifs();
+    }
+
+    loadNotifs = async () => {
+        await AsyncStorage.getItem('token').then((value) => {
+            if(value !== null) {
+                this.setState({"token": value});
+                console.log(value);
+            }
+        })
     }
 
     getDate() {
@@ -63,7 +78,21 @@ export default class AddAgenda extends React.Component {
                 if(this.state.text.length == 0) return;
                 if(parsed == null) parsed = {};
                 if(parsed[dateString] == null) parsed[dateString] = [];
-                parsed[dateString].push({date: this.getDate(), text: this.state.text});
+                let notificationId = '';
+                // schedule a notification
+                if(this.state.token !== '') {
+                    let time = moment(this.getDate()).format("h:mm a");
+                    let notification = {
+                        title: time,
+                        body: this.state.text,
+                        ios: {sound: true},
+                    }
+                    Notifications.scheduleLocalNotificationAsync(notification, {time: new Date(this.getDate())}).then((localNotificationId) => {
+                        notificationId = localNotificationId;
+                        console.log(notificationId);
+                    });
+                }
+                parsed[dateString].push({notifId: notificationId, date: this.getDate(), text: this.state.text});
             
                 /* newArr[dateString].sort((a,b) => {
                     return new Date(b.date) - new Date(a.date);

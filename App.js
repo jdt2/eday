@@ -15,12 +15,12 @@ import DailyAgenda from './components/DailyAgenda/DailyAgenda';
 import EditAgenda from './components/DailyAgenda/EditAgenda';
 import DailyAction from './components/DailyActions/DailyAction';
 import GlobalFont from 'react-native-global-font';
-import TodoPage from './components/Todo/TodoPage';
-import AddAgenda from './components/Todo/AddAgenda';
+import TodoPage from './components/DailyActions/TodoPage';
+import AddAgenda from './components/DailyAgenda/AddAgenda';
 import Mindset from './components/Mindset/Mindset';
 import About from './components/About/About';
 import Tutorial from './components/Tutorial/Tutorial';
-import {AdMobBanner} from 'expo';
+import {AdMobBanner, Permissions, Notifications} from 'expo';
 
 const unavigationOptions = ({navigation}) => {
   return {
@@ -302,7 +302,36 @@ const RootDrawer = createDrawerNavigator(
   }
 );
 
+// notifications
+async function register() {
+  const {status: existingStatus}  = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  let finalStatus = existingStatus;
+  if(existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  if(finalStatus !== 'granted') {
+    return;
+  }
+
+  let token = await Notifications.getExpoPushTokenAsync();
+  console.log(token);
+
+  AsyncStorage.setItem("token", token);
+
+  /* const token = await Expo.Notifications.getExpoPushTokenAsync();
+  console.log(status, token); */
+}
+
 export default class App extends React.Component {
+
+  componentWillMount() {
+    register();
+
+    
+  }
+
 
   componentDidMount() {
     GlobalFont.applyGlobal("Arial");

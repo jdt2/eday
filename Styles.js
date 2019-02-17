@@ -153,6 +153,12 @@ export default StyleSheet.create({
       marginBottom: 10,
       height: 60,
     },
+    swipeRightButton: {
+      height: 100,
+      flex: 1,
+      justifyContent: 'center',
+      paddingLeft: 15,
+    },
     // Todo in DailyAction.js
     todo: {
       height: 50,
@@ -164,6 +170,7 @@ export default StyleSheet.create({
       height: 50,
       backgroundColor: "white",
     },
+
     // TodoPage.js
     todoDelete: {
       marginTop: 20,

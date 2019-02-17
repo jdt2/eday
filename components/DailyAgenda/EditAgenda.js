@@ -5,6 +5,7 @@ import styles from '../../Styles';
 import { List } from 'native-base';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
+import {Notifications} from 'expo';
 
 export default class EditAgenda extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -36,6 +37,7 @@ export default class EditAgenda extends React.Component {
             index: 0,
             date: moment().format("YYYY-MM-DD"),
             time: moment().format("h:mm a"),
+            token: '',
         };
     }
 
@@ -43,9 +45,20 @@ export default class EditAgenda extends React.Component {
         let index = this.props.navigation.getParam("item", {});
 
         this.props.navigation.setParams({handleAction: this.addAgenda});
+
+        this.loadNotifs();
     
         // load in data and todoActivated
         this.loadData(index);
+    }
+
+    loadNotifs = async () => {
+        await AsyncStorage.getItem('token').then((value) => {
+            if(value !== null) {
+                this.setState({"token": value});
+                console.log(value);
+            }
+        })
     }
 
     loadData = async (item) => {
@@ -61,7 +74,7 @@ export default class EditAgenda extends React.Component {
             await AsyncStorage.getItem("agenda").then((value) => {
                 let parsed = JSON.parse(value);
                 if(parsed != null) {
-                    // sort parsed
+                    // get index
                     for(let i = 0; i < parsed[date].length; i++) {
                         if(parsed[date][i].date == item.date && parsed[date][i].text == item.text) {
                             this.setState({"index": i});
@@ -86,9 +99,27 @@ export default class EditAgenda extends React.Component {
             let tempItem = temp[this.state.date][this.state.index];
             const newDateString = moment(tempItem.date).format("YYYY-MM-DD") +" "+ this.state.time;
             console.log(newDateString);
+            // reset notification
+            let notificationId = '';
+            if(tempItem.notifId !== null && tempItem.notifId !== '') {
+                Notifications.cancelScheduledNotificationAsync(tempItem.notifId);
+            }
+            if(this.state.token !== '') {
+                let notification = {
+                    title: this.state.time,
+                    body: this.state.item.text,
+                    ios: {sound: true},
+                }
+                Notifications.scheduleLocalNotificationAsync(notification, {time: new Date(moment(newDateString, "YYYY-MM-DD hh:mm a").toDate())}).then((localNotificationId) => {
+                    notificationId = localNotificationId;
+                    console.log(notificationId);
+                });
+            }
             tempItem.date = moment(newDateString, "YYYY-MM-DD hh:mm a").toDate();
             tempItem.text = this.state.item.text;
+            tempItem.notifId = notificationId;
             temp[this.state.date][this.state.index] = tempItem;
+
 
             AsyncStorage.setItem("agenda", JSON.stringify(temp)).then(() => {
                 this.props.navigation.navigate("DailyAgenda");
@@ -110,8 +141,7 @@ export default class EditAgenda extends React.Component {
         let temp = this.state.items;
         temp[this.state.date].splice(this.state.index, 1);
 
-        AsyncStorage.setItem("todo", JSON.stringify(temp));
-        AsyncStorage.setItem("todoActivated", JSON.stringify(temp1));
+        AsyncStorage.setItem("agenda", JSON.stringify(temp));
         
         this.props.navigation.navigate("DailyAgenda");
     }
