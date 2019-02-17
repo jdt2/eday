@@ -4,12 +4,12 @@ import { Container, Content, Form, Textarea, Item, Input, Label, Button } from '
 import styles from '../../Styles';
 import {Ionicons as Icon} from '@expo/vector-icons';
 
-export default class EditLearning extends React.Component {
+export default class EditThinking extends React.Component {
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state
 
         return {
-            headerTitle: 'Edit a Note',
+            headerTitle: 'Edit a Thought',
             headerRight: (
                 <TouchableOpacity
                     style={styles.headerRight}
@@ -44,7 +44,7 @@ export default class EditLearning extends React.Component {
 
         // load in data
         try {
-            await AsyncStorage.getItem("notes").then((value) => {
+            await AsyncStorage.getItem("thinking").then((value) => {
                 let parsed = JSON.parse(value);
                 if(parsed != null) {
                     this.setState({data: parsed});
@@ -65,8 +65,8 @@ export default class EditLearning extends React.Component {
         let newArr = this.state.data;
         if (this.state.title.length == 0 || this.state.text.length == 0) return;
         newArr[this.state.index] = {title: this.state.title, text: this.state.text};
-        AsyncStorage.setItem("notes", JSON.stringify(newArr));
-        this.props.navigation.navigate("Learning");
+        AsyncStorage.setItem("thinking", JSON.stringify(newArr));
+        this.props.navigation.navigate("Thinking");
     }
 
     removeNote() {
@@ -76,9 +76,9 @@ export default class EditLearning extends React.Component {
         temp.splice(this.state.index, 1);
 
         this.setState({data: temp});
-        AsyncStorage.setItem("notes", JSON.stringify(temp));
+        AsyncStorage.setItem("thinking", JSON.stringify(temp));
         
-        this.props.navigation.navigate("Learning");
+        this.props.navigation.navigate("Thinking");
     }
 
     render() {
@@ -87,10 +87,10 @@ export default class EditLearning extends React.Component {
                 <Content>
                     <Form>
                         <Item floatingLabel style={{marginBottom: 10,}}>
-                            <Label>Title</Label>
+                            <Label>Thought Title</Label>
                             <Input value={this.state.title} onChangeText={(text) => this.setState({title: text})} />
                         </Item>
-                        <Textarea rowSpan={10} bordered placeholder="Insert note here" value={this.state.text} onChangeText={(text) => this.setState({text: text})} />
+                        <Textarea rowSpan={10} bordered placeholder="Insert thought here" value={this.state.text} onChangeText={(text) => this.setState({text: text})} />
                     </Form>
                     <View style={styles.todoDelete}>
                         <Button

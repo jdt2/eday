@@ -8,6 +8,8 @@ import Learning from './components/Learning/Learning';
 import Thinking from './components/Thinking/Thinking';
 import AddThinking from './components/Thinking/AddThinking';
 import AddLearning from './components/Learning/AddLearning';
+import EditLearning from './components/Learning/EditLearning';
+import EditThinking from './components/Thinking/EditThinking';
 import Hamburger from './components/util/Hamburger';
 import { Icon } from 'native-base';
 import Summary from './components/Summary/Summary';
@@ -50,6 +52,10 @@ const LearningNavigator = createStackNavigator(
     },
     AddNote: {
       screen: AddLearning,
+      navigationOptions: stackNavigationOptions,
+    },
+    EditNote: {
+      screen: EditLearning,
       navigationOptions: stackNavigationOptions,
     }
   }
@@ -120,8 +126,12 @@ const ThinkingNavigator = createStackNavigator(
       screen: Thinking,
       navigationOptions: unavigationOptions,
     },
-    AddNote: {
+    AddThought: {
       screen: AddThinking,
+      navigationOptions: stackNavigationOptions,
+    },
+    EditThought: {
+      screen: EditThinking,
       navigationOptions: stackNavigationOptions,
     }
   }

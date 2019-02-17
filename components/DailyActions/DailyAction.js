@@ -12,7 +12,7 @@ export default class DailyAction extends React.Component {
     static navigationOptions = ({navigation}) => {
 
         return {
-          headerTitle: 'Schedule',
+          headerTitle: 'Daily Actions',
         };
     };
 

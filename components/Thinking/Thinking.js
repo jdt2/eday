@@ -1,8 +1,8 @@
 import React from 'react';
 import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, Button, TextInput, StatusBar } from 'react-native';
-import { Card, CardItem, Text, Body, Container, Content } from 'native-base';
+import { Card, CardItem, Text, Body, Container, Content, Icon } from 'native-base';
 import styles from '../../Styles';
-import {Ionicons as Icon} from '@expo/vector-icons';
+import Swipeable from 'react-native-swipeable';
 
 export default class Thinking extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -11,9 +11,13 @@ export default class Thinking extends React.Component {
             headerRight: (
                 <TouchableOpacity
                     style={styles.headerRight}
-                    onPress={() => navigation.navigate("AddNote")}
+                    onPress={() => navigation.navigate("AddThought")}
                 >
-                    <Icon name="md-add" size={25} color="#FFF" />
+                    <Icon
+                        name="add"
+                        type="MaterialIcons"
+                        style={{fontSize: 24, color: "white"}}
+                    />
                 </TouchableOpacity>
             ),
         };
@@ -56,23 +60,59 @@ export default class Thinking extends React.Component {
         AsyncStorage.removeItem("thinking");
     }
 
+    editThought(i) {
+        this.props.navigation.navigate('EditThought', {index: i});
+    }
+
+    deleteThought(i) {
+        let temp = this.state.notes;
+        temp.splice(i,1);
+        this.setState({"notes": temp});
+        AsyncStorage.setItem("thinking", JSON.stringify(temp));
+    }
+
     render() {
         var notes = [];
         console.log(this.state.notes);
         for (let i = this.state.notes.length-1; i >= 0; i--) {
             notes.push(
-                <Card style={{marginLeft: 10, marginRight: 10,}}>
-                    <CardItem header>
-                        <Text>{this.state.notes[i].title}</Text>
-                    </CardItem>
-                    <CardItem>
-                        <Body>
-                            <Text>
-                                {this.state.notes[i].text}
-                            </Text>
-                        </Body>
-                    </CardItem>
-                </Card>
+                <Swipeable key={i} onRef={ref=> {
+                    this.$swipe = ref;
+                }} rightButtons={[
+                    <TouchableOpacity onPress={() => {
+                        this.$swipe.recenter();
+                        this.editThought(i);
+                    }} style={styles.swipeRightButton}>
+                        <Icon
+                            name="edit"
+                            type="MaterialIcons"
+                            style={{fontSize: 24, color: "blue"}}
+                        />
+                    </TouchableOpacity>,
+                    <TouchableOpacity onPress={() => {
+                        this.$swipe.recenter();
+                        this.deleteThought(i);
+                    }} style={styles.swipeRightButton}>
+                        <Icon
+                            name="close"
+                            type="MaterialIcons"
+                            style={{fontSize: 24, color: "red"}}
+                        />
+                    </TouchableOpacity>
+                ]}>
+                    <Card style={{marginLeft: 10, marginRight: 10,}}>
+                        <CardItem header>
+                            <Text>{this.state.notes[i].title}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>
+                                    {this.state.notes[i].text}
+                                </Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </Swipeable>
             );
         }
 

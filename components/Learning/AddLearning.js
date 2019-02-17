@@ -38,7 +38,6 @@ export default class AddLearning extends React.Component {
             await AsyncStorage.getItem("notes").then((value) => {
                 let parsed = JSON.parse(value);
                 /* alert(parsed); */
-                let newArr = [];
                 if (this.state.title.length == 0 || this.state.text.length == 0) return;
                 if(!parsed) parsed = [];
                 parsed.push({title: this.state.title, text: this.state.text});
