@@ -3,6 +3,7 @@ import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, Style
 import { Card, CardItem, Text, Body, Container, Content, Icon, Right, Left, Button } from 'native-base';
 import styles from '../../Styles';
 import Swipeable from 'react-native-swipeable';
+import {AdMobBanner} from 'expo';
 
 export default class Thinking extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -132,7 +133,15 @@ export default class Thinking extends React.Component {
                         block
                     ><Text>Clear</Text></Button>
                     {notes}
+                    <View style={{height: 50,}}></View>
                 </Content>
+                    {/* Ads */}
+                    <AdMobBanner
+                    style={styles.bottomBanner}
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+                    testDeviceID="EMULATOR"
+                    onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
             </Container>
         );
     }

@@ -127,6 +127,7 @@ export default class Home extends React.Component {
             </Animated.Text>
           </Animated.View>
 
+            <View style={{height: 100,}}></View>
           {/* Ads */}
           <AdMobBanner
             style={styles.bottomBanner}

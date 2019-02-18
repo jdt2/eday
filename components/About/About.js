@@ -3,6 +3,7 @@ import { AsyncStorage, Linking, Animated, Platform, StyleSheet, Text, View, Imag
 import { Container, Content, Card, CardItem, Body, Button } from 'native-base';
 import styles from '../../Styles';
 import LottieView from 'lottie-react-native';
+import {AdMobBanner} from 'expo';
 
 export default class About extends React.Component {
 	static navigationOptions = ({navigation}) => {
@@ -73,7 +74,15 @@ export default class About extends React.Component {
           >
               <Text style={[styles.aboutText, {color: 'white'}]}>Revisit Tutorial</Text>
           </Button>
+          <View style={{height: 70,}}></View>
         </Content>
+        {/* Ads */}
+        <AdMobBanner
+        style={styles.bottomBanner}
+        bannerSize="fullBanner"
+        adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+        testDeviceID="EMULATOR"
+        onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
       </Container>
     );
   }

@@ -378,6 +378,7 @@ export default class Goals extends React.Component {
               <Text>Clear Action Steps</Text>
             </Button>
           </View>
+          <View style={{height: 50,}}></View>
         </Content>
         {/* Ads */}
         <AdMobBanner

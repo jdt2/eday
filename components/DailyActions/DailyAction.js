@@ -6,6 +6,7 @@ import styles from '../../Styles';
 import { Agenda } from 'react-native-calendars';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
+import {AdMobBanner} from 'expo';
 
 export default class DailyAction extends React.Component {
 
@@ -174,17 +175,13 @@ export default class DailyAction extends React.Component {
         }
     
         return (
-          <Container>
-            
             <Content>
               <List>
                 {listItems}
               </List>
-            </Content>
-            {/* <Footer style={styles.todoFooter}>
+              <View style={{height: 70,}}></View>
               
-            </Footer> */}
-          </Container>
+            </Content>
         );
     }
 
@@ -195,6 +192,13 @@ export default class DailyAction extends React.Component {
                     onDidFocus={payload => this.loadData()}
                 />
                 {this.renderDailyActions()}
+                {/* Ads */}
+                <AdMobBanner
+                style={styles.bottomBanner}
+                bannerSize="fullBanner"
+                adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+                testDeviceID="EMULATOR"
+                onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
             </Container>
         );
     }

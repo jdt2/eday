@@ -3,6 +3,7 @@ import { Easing, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextIn
 import styles from '../../Styles';
 import { Input, Container, Title, Content, Button, Card, CardItem, Text, Body, Left, Right, IconNB, Footer, Item, Label } from "native-base";
 import {Ionicons as Icon} from '@expo/vector-icons';
+import {AdMobBanner} from 'expo';
 
 export default class Mindset extends React.Component {
 
@@ -222,7 +223,16 @@ export default class Mindset extends React.Component {
                          <Text>Clear Mindset</Text>
                         </Button>
                     </View>
-                </Content>  
+                    <View style={{height: 70,}}></View>
+                </Content>
+
+                {/* Ads */}
+                <AdMobBanner
+                style={styles.bottomBanner}
+                bannerSize="fullBanner"
+                adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+                testDeviceID="EMULATOR"
+                onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
             </Container>
         );
     }

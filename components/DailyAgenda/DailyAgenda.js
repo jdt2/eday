@@ -7,7 +7,7 @@ import { Agenda } from 'react-native-calendars';
 import { NavigationEvents } from 'react-navigation';
 import moment from 'moment';
 import Swipeable from 'react-native-swipeable';
-import {Notifications} from 'expo';
+import {Notifications, AdMobBanner} from 'expo';
 
 export default class DailyAgenda extends React.Component {
 
@@ -110,6 +110,14 @@ export default class DailyAgenda extends React.Component {
                     // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
                 />
+                <View style={{height: 70,backgroundColor: '#F4F4F4'}}></View>
+                {/* Ads */}
+                <AdMobBanner
+                style={styles.bottomBanner}
+                bannerSize="fullBanner"
+                adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+                testDeviceID="EMULATOR"
+                onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
             </Container>
         );
     }

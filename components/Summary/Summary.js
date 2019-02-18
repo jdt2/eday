@@ -3,6 +3,7 @@ import { Share, ScrollView, Easing, AsyncStorage, TouchableOpacity, StyleSheet, 
 import styles from '../../Styles';
 import { Input, Container, Title, Content, Icon, Button, Card, Text, CardItem, Body, Left, Right, IconNB, Footer, Item, Label, ScrollableTab, Tabs, Tab } from "native-base";
 import moment from 'moment';
+import {AdMobBanner} from 'expo';
 
 export default class Summary extends React.Component {
 
@@ -533,22 +534,49 @@ export default class Summary extends React.Component {
 
         return (
             <Container>
+                {/* Old Buttons */}
+                {/*
                 <Button
-                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
-                    onPress={() => {
-                        this.save();
-                    }}
-                >
-                    <Text>Save Summary</Text>
-                </Button>
-                <Button
-                    style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
-                    onPress={() => {
-                        AsyncStorage.removeItem("summary");
-                    }}
-                >
-                    <Text>Remove Saved Summary</Text>
-                </Button>
+                        style={{alignSelf: 'center'}}
+                        onPress={() => {
+                            this.save();
+                        }}
+                    >
+                        <Text>Save Summary</Text>
+                    </Button>
+                    <Button
+                        style={{alignSelf: 'center'}}
+                        onPress={() => {
+                            AsyncStorage.removeItem("summary");
+                        }}
+                    >
+                        <Text>Remove</Text>
+                    </Button>
+                */}
+                <Card transparent>
+                    <CardItem>
+                        <Left>
+                        <Button
+                            style={{alignSelf: 'center'}}
+                            onPress={() => {
+                                this.save();
+                            }}
+                        >
+                            <Text>Save Summary</Text>
+                        </Button>
+                        </Left>
+                        <Right>
+                        <Button
+                            style={{alignSelf: 'center'}}
+                            onPress={() => {
+                                AsyncStorage.removeItem("summary");
+                            }}
+                        >
+                            <Text>Remove Saved</Text>
+                        </Button>
+                        </Right>
+                    </CardItem>
+                </Card>
                 {/* <Button
                     style={{alignSelf: 'center', marginTop: 10, marginBottom: 10,}}
                     onPress={() => {
@@ -630,6 +658,15 @@ export default class Summary extends React.Component {
                         </ScrollView>
                     </Tab>
                 </Tabs>
+                <View style={{height: 70,}}></View>
+
+                {/* Ads */}
+                <AdMobBanner
+                style={styles.bottomBanner}
+                bannerSize="fullBanner"
+                adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+                testDeviceID="EMULATOR"
+                onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
             </Container>
         );
     }
