@@ -11,6 +11,11 @@ export default StyleSheet.create({
         width: 24,
         height: 24
     },
+    cardHeader: {
+      flex: 1,
+      justifyContent: 'center',
+      fontWeight: 'bold',
+    },
     textHeader: {
       fontSize: 48,
       fontWeight: 'bold',

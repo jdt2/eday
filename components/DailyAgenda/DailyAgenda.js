@@ -195,7 +195,7 @@ export default class DailyAgenda extends React.Component {
     renderItem(item) {
         if(!item.add) {
             return (
-                <Swipeable onRef={ref=> {
+                /* <Swipeable onRef={ref=> {
                     this.setSwipeRef(ref, item);
                 }} rightButtons={[
                     <TouchableOpacity onPress={() => {
@@ -218,12 +218,19 @@ export default class DailyAgenda extends React.Component {
                             style={{fontSize: 24, color: "red"}}
                         />
                     </TouchableOpacity>
-                ]}>
+                ]}> */
                     <Card>
                         <CardItem header bordered button onPress={() => {
                             this.editItem(item);
                         }}>
-                            <Text style={{fontSize: 14}}>{moment(item.date).format("h:mm a")}</Text>
+                            <Body>
+                                <Text style={[styles.cardHeader, {color: "#3FB0B9", fontSize: 14}]}>{moment(item.date).format("h:mm a")}</Text>
+                            </Body>
+                            <Right>
+                                <TouchableOpacity onPress={() => {this.editItem(item)}}>
+                                    <Icon name="info-outline" type="MaterialIcons" style={{fontSize: 20, color: "#3FB0B9"}} />
+                                </TouchableOpacity>
+                            </Right>
                         </CardItem>
                         <CardItem>
                             <Body>
@@ -231,7 +238,7 @@ export default class DailyAgenda extends React.Component {
                             </Body>
                         </CardItem>
                     </Card>
-                </Swipeable>
+                //</Swipeable>
             );
         } else {
             return (
@@ -252,7 +259,7 @@ export default class DailyAgenda extends React.Component {
                     transparent
                     onPress={() => {this.props.navigation.navigate("AddAgenda")}}
                     >*/}
-                    <Text>Add an item to your agenda with the button above</Text>    
+                    <Text>You don't have anything on this date</Text>    
                 {/*</Button>*/}
             </View>
         );

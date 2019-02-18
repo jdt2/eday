@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, Button, TextInput, StatusBar } from 'react-native';
-import { Card, CardItem, Text, Body, Container, Content, Icon } from 'native-base';
+import { ScrollView, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, StyleSheet, View, Image, TextInput, StatusBar } from 'react-native';
+import { Card, CardItem, Text, Body, Container, Content, Icon, Right, Left, Button } from 'native-base';
 import styles from '../../Styles';
 import Swipeable from 'react-native-swipeable';
 
@@ -76,7 +76,7 @@ export default class Thinking extends React.Component {
         console.log(this.state.notes);
         for (let i = this.state.notes.length-1; i >= 0; i--) {
             notes.push(
-                <Swipeable key={i} onRef={ref=> {
+                /* <Swipeable key={i} onRef={ref=> {
                     this.$swipe = ref;
                 }} rightButtons={[
                     <TouchableOpacity onPress={() => {
@@ -99,10 +99,15 @@ export default class Thinking extends React.Component {
                             style={{fontSize: 24, color: "red"}}
                         />
                     </TouchableOpacity>
-                ]}>
-                    <Card style={{marginLeft: 10, marginRight: 10,}}>
-                        <CardItem header>
-                            <Text>{this.state.notes[i].title}</Text>
+                ]}> */
+                    <Card key={i} style={{marginLeft: 10, marginRight: 10,}}>
+                        <CardItem header bordered>
+                            <Body><Text style={styles.cardHeader}>{this.state.notes[i].title}</Text></Body>
+                            <Right>
+                                <TouchableOpacity onPress={() => {this.editThought(i)}}>
+                                    <Icon name="info-outline" type="MaterialIcons" style={{fontSize: 20, color: "#3FB0B9"}} />
+                                </TouchableOpacity>
+                            </Right>
                         </CardItem>
                         <CardItem>
                             <Body>
@@ -112,7 +117,7 @@ export default class Thinking extends React.Component {
                             </Body>
                         </CardItem>
                     </Card>
-                </Swipeable>
+                //</Swipeable>
             );
         }
 
@@ -123,8 +128,9 @@ export default class Thinking extends React.Component {
                         onPress={() => {
                             this.clearNotes();
                         }}
-                        title="Clear"
-                    />
+                        transparent
+                        block
+                    ><Text>Clear</Text></Button>
                     {notes}
                 </Content>
             </Container>
