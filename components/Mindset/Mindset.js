@@ -200,9 +200,6 @@ export default class Mindset extends React.Component {
         return (
             <Container>
                 <Content>
-                    <Text style={[styles.textHeader, {marginTop: 20, marginBottom: 5,marginLeft: 15}]}>
-                        Goals
-                    </Text>
                     {mindsetFields}
                     <View style={styles.goalButtons}>
                         <Button

@@ -28,6 +28,7 @@ export default class DailyAgenda extends React.Component {
             items: {},
             token: "",
             swipeables: {},
+            selected: {},
         }
     }
 
@@ -54,6 +55,8 @@ export default class DailyAgenda extends React.Component {
                         })
                     });
                     this.setState({"items": tempArr});
+                    let currDate = moment().format("YYYY-MM-DD");
+                    this.setState({"selected": {[currDate]: tempArr[currDate]}});
                 } else {
                     this.setState({"items": {}});
                 }
@@ -80,7 +83,9 @@ export default class DailyAgenda extends React.Component {
                 </Card>
                 
                 <Agenda
-                items={this.state.items}
+                items={this.state.selected}
+                onDayPress={this.updateSelected.bind(this)}
+                markedDates={this.getMarkedDates()}
                 loadItemsForMonth={this.loadItems.bind(this)}
                 selected={moment().format("YYYY-MM-DD")}
                 renderItem={this.renderItem.bind(this)}
@@ -118,6 +123,34 @@ export default class DailyAgenda extends React.Component {
                 {this.renderDailyAgenda()}
             </Container>
         );
+    }
+
+    getMarkedDates = () => {
+        let markedDates = {};
+        Object.keys(this.state.items).map(date => {
+            markedDates[date] = {
+                marked: true,
+            }
+        })
+
+        return {
+            ...markedDates
+        };
+    }
+
+    updateSelected(date) {
+        //console.log(date);
+        const newDate = date.dateString;
+        const dates = this.state.items[newDate];
+        
+        //console.log(this.state.items);
+        //console.log({[newDate]: dates});
+
+        this.setState({
+            selected: {
+                [newDate]: dates
+            }
+        })
     }
 
     loadItems(day) {
