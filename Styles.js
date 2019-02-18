@@ -11,6 +11,10 @@ export default StyleSheet.create({
         width: 24,
         height: 24
     },
+    bottomBanner: {
+      position: 'absolute',
+      bottom: 0,
+    },
     cardHeader: {
       flex: 1,
       justifyContent: 'center',

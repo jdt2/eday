@@ -129,12 +129,11 @@ export default class Home extends React.Component {
 
           {/* Ads */}
           <AdMobBanner
-            style={{position: 'absolute', bottom: 0}}
+            style={styles.bottomBanner}
             bannerSize="fullBanner"
-            adUnitID="ca-app-pub-7973916379677731/6156957851"
+            adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
             testDeviceID="EMULATOR"
-            onAdFailedToLoad={error => console.error(error)}
-          />
+            onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
         </Content>
       </Container>
     );
