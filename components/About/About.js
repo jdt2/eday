@@ -80,7 +80,7 @@ export default class About extends React.Component {
         <AdMobBanner
         style={styles.bottomBanner}
         bannerSize="fullBanner"
-        adUnitID="ca-app-pub-7973916379677731/6870247021" // Test ID, Replace with your-admob-unit-id
+        adUnitID="ca-app-pub-5171415220082797/1924509279" // Test ID, Replace with your-admob-unit-id
         testDeviceID="EMULATOR"
         onDidFailToReceiveAdWithError={(err) => {console.log(err)}}/>
       </Container>
