@@ -29,6 +29,7 @@ export default class DailyAgenda extends React.Component {
             token: "",
             swipeables: {},
             selected: {},
+            currDate: "",
         }
     }
 
@@ -74,7 +75,7 @@ export default class DailyAgenda extends React.Component {
                         <Left />
                         <Button
                             primary
-                            onPress={() => {this.props.navigation.navigate("AddAgenda")}}
+                            onPress={() => {this.props.navigation.navigate("AddAgenda", {currDate: this.state.currDate})}}
                         >
                             <Text>Add an item to your agenda</Text>    
                         </Button>
@@ -92,9 +93,6 @@ export default class DailyAgenda extends React.Component {
                 renderEmptyDate={this.renderEmptyDate.bind(this)}
                 renderEmptyData={this.renderEmptyDate.bind(this)}
                 rowHasChanged={this.rowHasChanged.bind(this)}
-                onRefresh={() => {
-                    this.loadData();
-                }}
                 refreshControl={null}
                 // markingType={'period'}
                 // markedDates={{
@@ -149,6 +147,7 @@ export default class DailyAgenda extends React.Component {
     updateSelected(date) {
         //console.log(date);
         const newDate = date.dateString;
+        this.setState({currDate: newDate});
         const dates = this.state.items[newDate];
         
         //console.log(this.state.items);
@@ -252,7 +251,7 @@ export default class DailyAgenda extends React.Component {
             return (
                 <Button
                     transparent
-                    onPress={() => {this.props.navigation.navigate("AddAgenda")}}
+                    onPress={() => {this.props.navigation.navigate("AddAgenda", {currDate: this.state.currDate})}}
                 >
                     <Text>Add an item to your agenda</Text>    
                 </Button>

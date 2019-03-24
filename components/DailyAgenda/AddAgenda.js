@@ -39,6 +39,11 @@ export default class AddAgenda extends React.Component {
     }
 
     componentDidMount() {
+        let currDate = this.props.navigation.getParam("currDate", "");
+        if(currDate != "") {
+            this.setState({date: currDate});
+        }
+
         this.loadNotifs();
     }
 
