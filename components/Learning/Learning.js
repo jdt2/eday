@@ -74,7 +74,6 @@ export default class Learning extends React.Component {
 
     render() {
         var notes = [];
-        console.log(this.state.notes);
         for (let i = this.state.notes.length-1; i >= 0; i--) {
             notes.push(
                 /*<Swipeable key={i} onRef={ref=> {

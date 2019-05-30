@@ -24,8 +24,6 @@ export default class EditLearning extends React.Component {
     constructor(props) {
         super(props);
 
-        let index = this.props.navigation.getParam("index", 0);
-
         this.props.navigation.setParams({handleNote: this.addNote});
 
         this.state = {
@@ -34,8 +32,14 @@ export default class EditLearning extends React.Component {
             data: [],
             index: 0,
         }
+    }
+
+    componentDidMount() {
+
+        let index = this.props.navigation.getParam("index", 0);
 
         this.loadData(index);
+
     }
 
     loadData = async (index) => {
@@ -82,6 +86,7 @@ export default class EditLearning extends React.Component {
     }
 
     render() {
+
         return (
             <Container>
                 <Content>
